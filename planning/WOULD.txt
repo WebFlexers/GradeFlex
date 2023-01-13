@@ -27,3 +27,9 @@ It will contain students, teachers and secretaries.
 * Azure Active Directory for authentication
 
 3) U - User Interface Design
+https://www.figma.com/file/ORM1ndecGHS8y6nvJk1e4q/GradeFlex-Wireframe?node-id=7%3A398&t=gZ2l4oIeklV2TGK5-0
+
+4) L - Logic Design
+
+5) D - Database Design
+Located inside the assignment.pdf file
