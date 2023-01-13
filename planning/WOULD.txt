@@ -1,0 +1,29 @@
+1) W - Walk through it
+We will create an ASP .NET MVC Web Application that will manage the grading system of our university.
+It will contain students, teachers and secretaries. 
+
+* The students will be able to:
+	a) See their grades in exercises, assignments and final exam
+	b) See their final grade in every course
+	c) See their average on every semester
+	d) See their total average grade
+
+* The professors will be able to:
+	a) Grade their students at execises, assignments and the final exam
+	b) See a grades list for their students by course
+
+* The secretaries will be able to:
+	a) Input new courses, professors and students
+	b) See all the courses (course names, semester, assigned professor)
+	c) Assign courses to professors
+	d) Declare courses for students
+
+2) O - Open up the requirements
+
+* Visual Studio
+* ASP .NET MVC Web App
+* Entity Framework core-first
+* Microsoft SQL Server for the database
+* Azure Active Directory for authentication
+
+3) U - User Interface Design
