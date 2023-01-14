@@ -7,7 +7,7 @@ public class ProfessorConfig : IEntityTypeConfiguration<Professor>
 {
     public void Configure(EntityTypeBuilder<Professor> builder)
     {
-        builder.HasKey(prof => prof.Afm);
+        builder.HasKey(prof => prof.Id);
 
         builder.Property(prof => prof.Name)
             .IsRequired()

@@ -7,7 +7,7 @@ public class StudentConfig : IEntityTypeConfiguration<Student>
 {
     public void Configure(EntityTypeBuilder<Student> builder)
     {
-        builder.HasKey(student => student.RegistrationNumber);
+        builder.HasKey(student => student.Id);
 
         builder.Property(student => student.Name)
             .IsRequired()
@@ -20,5 +20,9 @@ public class StudentConfig : IEntityTypeConfiguration<Student>
         builder.Property(student => student.Department)
             .IsRequired()
             .HasMaxLength(45);
+
+        //builder.HasOne(student => student.User)
+        //    .WithOne()
+        //    .HasForeignKey<Student>(student => student.Id);
     }
 }

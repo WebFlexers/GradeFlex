@@ -7,7 +7,7 @@ public class SecretaryConfig : IEntityTypeConfiguration<Secretary>
 {
     public void Configure(EntityTypeBuilder<Secretary> builder)
     {
-        builder.HasKey(secretary => secretary.PhoneNumber);
+        builder.HasKey(secretary => secretary.Id);
 
         builder.Property(secretary => secretary.Name)
             .IsRequired()
@@ -20,5 +20,9 @@ public class SecretaryConfig : IEntityTypeConfiguration<Secretary>
         builder.Property(secretary => secretary.Department)
             .IsRequired()
             .HasMaxLength(45);
+
+        //builder.HasOne(secretary => secretary.User)
+        //    .WithOne()
+        //    .HasForeignKey<Secretary>(secretary => secretary.Id);
     }
 }
