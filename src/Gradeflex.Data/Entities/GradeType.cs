@@ -2,8 +2,7 @@
 
 public enum GradeType
 {
-    TotalGrade,
     FinalExamGrade,
     AssignmentGrade,
-    ExerciseGrade
+    ExerciseGrade,
 }

@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace Gradeflex.Data.Entities.Seeding;
@@ -40,6 +41,7 @@ public class SampleData
         CreateSecretaries();
         CreateCourses();
         CreateCoursesStudents();
+        CreateGrades();
 
         modelBuilder.Entity<User>().HasData(_users);
         modelBuilder.Entity<Student>().HasData(_students);
@@ -47,6 +49,7 @@ public class SampleData
         modelBuilder.Entity<Secretary>().HasData(_secretaries);
         modelBuilder.Entity<Course>().HasData(_courses);
         modelBuilder.Entity<CourseStudent>().HasData(_coursesStudents);
+        modelBuilder.Entity<Grade>().HasData(_grades);
     }
 
     private int _userId = 1;
@@ -208,11 +211,12 @@ public class SampleData
         _courses.AddRange(coursesFake.Generate(CoursesNumber));
     }
 
+    private readonly List<(int, int)> _studentsCourses = new();
     private void CreateCoursesStudents()
     {
         // List used to keep track of the students and courses
         // in order to avoid duplicates
-        List<(int, int)> studentsCourses = new();
+        
         int studentId = 0;
         var coursesStudentsFake = new Faker<CourseStudent>()
             .CustomInstantiator(f =>
@@ -230,7 +234,7 @@ public class SampleData
                     courseId = f.Random.Number(1, CoursesNumber);
 
                     // If the specific student and course have already been added get a new value
-                    if (studentsCourses.Exists(cs => cs.Item1 == studentId && cs.Item2 == courseId))
+                    if (_studentsCourses.Exists(cs => cs.Item1 == studentId && cs.Item2 == courseId))
                     {
                         continue;
                     }
@@ -247,7 +251,7 @@ public class SampleData
                     break;
                 }
 
-                studentsCourses.Add((studentId, courseId));
+                _studentsCourses.Add((studentId, courseId));
 
                 return new CourseStudent
                 {
@@ -257,5 +261,42 @@ public class SampleData
             });
 
         _coursesStudents.AddRange(coursesStudentsFake.Generate(StudentsNumber * 3));
+    }
+
+    private void CreateGrades()
+    {
+        int courseStudentIndex = -1;
+        int gradeId = 0;
+
+        var gradesFake = new Faker<Grade>()
+            .CustomInstantiator(f =>
+            {
+                if (gradeId % 3 == 0)
+                {
+                    courseStudentIndex++;
+                }
+
+                gradeId++;
+
+                var courseStudent = _coursesStudents[courseStudentIndex];
+
+                int gradeValue = f.Random.Number(0, 15);
+
+                if (gradeValue > 10)
+                {
+                    gradeValue -= 5;
+                }
+
+                return new Grade
+                {
+                    Id = gradeId,
+                    Value = gradeValue,
+                    Type = (GradeType)(gradeId % 3),
+                    CourseId = courseStudent.CourseId,
+                    StudentId = courseStudent.StudentId,
+                };
+            });
+
+        _grades.AddRange(gradesFake.Generate(_coursesStudents.Count * 3));
     }
 }

@@ -3,7 +3,7 @@
 public class Grade
 {
     public int Id { get; set; }
-    public int Value { get; set; }
+    public double Value { get; set; }
     public GradeType Type { get; set; }
 
     public int CourseId { get; set; }
