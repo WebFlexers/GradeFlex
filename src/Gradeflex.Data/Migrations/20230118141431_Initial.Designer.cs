@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gradeflex.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230114160225_Initial")]
+    [Migration("20230118141431_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -23,6 +23,73 @@ namespace Gradeflex.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Gradeflex.Data.Entities.Course", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Semester")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("Gradeflex.Data.Entities.CourseStudent", b =>
+                {
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CourseId", "StudentId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("CoursesStudents");
+                });
+
+            modelBuilder.Entity("Gradeflex.Data.Entities.Grade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Grade");
+                });
 
             modelBuilder.Entity("Gradeflex.Data.Entities.Professor", b =>
                 {
@@ -166,6 +233,44 @@ namespace Gradeflex.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Gradeflex.Data.Entities.CourseStudent", b =>
+                {
+                    b.HasOne("Gradeflex.Data.Entities.Course", "Course")
+                        .WithMany("CoursesStudents")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Gradeflex.Data.Entities.Student", "Student")
+                        .WithMany("CoursesStudents")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("Gradeflex.Data.Entities.Grade", b =>
+                {
+                    b.HasOne("Gradeflex.Data.Entities.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Gradeflex.Data.Entities.Student", "Student")
+                        .WithMany("Grades")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("Gradeflex.Data.Entities.Professor", b =>
                 {
                     b.HasOne("Gradeflex.Data.Entities.User", "User")
@@ -197,6 +302,18 @@ namespace Gradeflex.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Gradeflex.Data.Entities.Course", b =>
+                {
+                    b.Navigation("CoursesStudents");
+                });
+
+            modelBuilder.Entity("Gradeflex.Data.Entities.Student", b =>
+                {
+                    b.Navigation("CoursesStudents");
+
+                    b.Navigation("Grades");
                 });
 
             modelBuilder.Entity("Gradeflex.Data.Entities.User", b =>
