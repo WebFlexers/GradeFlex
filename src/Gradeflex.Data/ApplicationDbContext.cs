@@ -18,4 +18,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<Student> Students { get; set; }
     public DbSet<Secretary> Secretaries { get; set; }
     public DbSet<Professor> Professors { get; set; }
+    public DbSet<Course> Courses { get; set; }
+    public DbSet<CourseStudent> CoursesStudents { get; set; }
 }

@@ -8,6 +8,7 @@ public class Student
     public string Name { get; set; }
     public string Surname { get; set; }
     public string Department { get; set; }
+    public HashSet<CourseStudent> CoursesStudents { get; set; }
 
     public int UserId { get; set; }
     public User User { get; set; }
