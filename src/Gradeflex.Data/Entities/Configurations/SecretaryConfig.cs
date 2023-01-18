@@ -20,9 +20,5 @@ public class SecretaryConfig : IEntityTypeConfiguration<Secretary>
         builder.Property(secretary => secretary.Department)
             .IsRequired()
             .HasMaxLength(45);
-
-        //builder.HasOne(secretary => secretary.User)
-        //    .WithOne()
-        //    .HasForeignKey<Secretary>(secretary => secretary.Id);
     }
 }

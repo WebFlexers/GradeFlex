@@ -3,6 +3,7 @@ using Gradeflex.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gradeflex.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230118173959_ProfessorDataSeeding")]
+    partial class ProfessorDataSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,53 +260,6 @@ namespace Gradeflex.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Secretaries");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Department = "Economics",
-                            Name = "Carole",
-                            PhoneNumber = 2106942324,
-                            Surname = "Pouros",
-                            UserId = 61
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Department = "Informatics",
-                            Name = "Coty",
-                            PhoneNumber = 2106738705,
-                            Surname = "Champlin",
-                            UserId = 62
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Department = "Economics",
-                            Name = "Zoey",
-                            PhoneNumber = 2103820443,
-                            Surname = "Schimmel",
-                            UserId = 63
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Department = "Economics",
-                            Name = "Lue",
-                            PhoneNumber = 2100214633,
-                            Surname = "Nolan",
-                            UserId = 64
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Department = "Economics",
-                            Name = "Orlando",
-                            PhoneNumber = 2103754641,
-                            Surname = "Bernier",
-                            UserId = 65
-                        });
                 });
 
             modelBuilder.Entity("Gradeflex.Data.Entities.Student", b =>
@@ -1245,41 +1201,6 @@ namespace Gradeflex.Data.Migrations
                             Password = "I72aQw1Wde",
                             Role = "professor",
                             Username = "Brad.OKeefe73"
-                        },
-                        new
-                        {
-                            Id = 61,
-                            Password = "OdkabXjzra",
-                            Role = "secretary",
-                            Username = "Hester_Spinka72"
-                        },
-                        new
-                        {
-                            Id = 62,
-                            Password = "yEmbtdurhb",
-                            Role = "secretary",
-                            Username = "Deshawn_White63"
-                        },
-                        new
-                        {
-                            Id = 63,
-                            Password = "6gFqwF0tt7",
-                            Role = "secretary",
-                            Username = "Josiane.Schmidt18"
-                        },
-                        new
-                        {
-                            Id = 64,
-                            Password = "zlXckO7Anq",
-                            Role = "secretary",
-                            Username = "Assunta61"
-                        },
-                        new
-                        {
-                            Id = 65,
-                            Password = "90MZlkud3Q",
-                            Role = "secretary",
-                            Username = "Vesta_Runolfsdottir22"
                         });
                 });
 

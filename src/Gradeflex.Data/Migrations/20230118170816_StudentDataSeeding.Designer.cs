@@ -3,6 +3,7 @@ using Gradeflex.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gradeflex.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230118170816_StudentDataSeeding")]
+    partial class StudentDataSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,98 +131,6 @@ namespace Gradeflex.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Professors");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Afm = 194394052,
-                            Department = "Economics",
-                            Name = "Jannie",
-                            Surname = "Waelchi",
-                            UserId = 51
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Afm = 116321252,
-                            Department = "Informatics",
-                            Name = "Keven",
-                            Surname = "Boehm",
-                            UserId = 52
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Afm = 128665219,
-                            Department = "Economics",
-                            Name = "Glen",
-                            Surname = "Kassulke",
-                            UserId = 53
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Afm = 335517960,
-                            Department = "Informatics",
-                            Name = "Keira",
-                            Surname = "Larson",
-                            UserId = 54
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Afm = 173082468,
-                            Department = "Economics",
-                            Name = "Fannie",
-                            Surname = "Gerlach",
-                            UserId = 55
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Afm = 348727676,
-                            Department = "Economics",
-                            Name = "Patricia",
-                            Surname = "Rutherford",
-                            UserId = 56
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Afm = 373554057,
-                            Department = "Economics",
-                            Name = "Jaycee",
-                            Surname = "Homenick",
-                            UserId = 57
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Afm = 113797021,
-                            Department = "Economics",
-                            Name = "Tamara",
-                            Surname = "Waelchi",
-                            UserId = 58
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Afm = 423397640,
-                            Department = "Informatics",
-                            Name = "Josiane",
-                            Surname = "Kris",
-                            UserId = 59
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Afm = 490437810,
-                            Department = "Informatics",
-                            Name = "Vicente",
-                            Surname = "Lueilwitz",
-                            UserId = 60
-                        });
                 });
 
             modelBuilder.Entity("Gradeflex.Data.Entities.Secretary", b =>
@@ -257,53 +168,6 @@ namespace Gradeflex.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Secretaries");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Department = "Economics",
-                            Name = "Carole",
-                            PhoneNumber = 2106942324,
-                            Surname = "Pouros",
-                            UserId = 61
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Department = "Informatics",
-                            Name = "Coty",
-                            PhoneNumber = 2106738705,
-                            Surname = "Champlin",
-                            UserId = 62
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Department = "Economics",
-                            Name = "Zoey",
-                            PhoneNumber = 2103820443,
-                            Surname = "Schimmel",
-                            UserId = 63
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Department = "Economics",
-                            Name = "Lue",
-                            PhoneNumber = 2100214633,
-                            Surname = "Nolan",
-                            UserId = 64
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Department = "Economics",
-                            Name = "Orlando",
-                            PhoneNumber = 2103754641,
-                            Surname = "Bernier",
-                            UserId = 65
-                        });
                 });
 
             modelBuilder.Entity("Gradeflex.Data.Entities.Student", b =>
@@ -1175,111 +1039,6 @@ namespace Gradeflex.Data.Migrations
                             Password = "TVMpGLNOPi",
                             Role = "student",
                             Username = "Reinhold44"
-                        },
-                        new
-                        {
-                            Id = 51,
-                            Password = "nDwjY1YOHx",
-                            Role = "professor",
-                            Username = "Markus_Moen"
-                        },
-                        new
-                        {
-                            Id = 52,
-                            Password = "mMnMe0u_wD",
-                            Role = "professor",
-                            Username = "Peter.Doyle2"
-                        },
-                        new
-                        {
-                            Id = 53,
-                            Password = "F7En_zLUjo",
-                            Role = "professor",
-                            Username = "Abbey38"
-                        },
-                        new
-                        {
-                            Id = 54,
-                            Password = "AKTpfsPaH3",
-                            Role = "professor",
-                            Username = "Kristina_McClure"
-                        },
-                        new
-                        {
-                            Id = 55,
-                            Password = "dmoQ9gE6ol",
-                            Role = "professor",
-                            Username = "Lillie_Jenkins85"
-                        },
-                        new
-                        {
-                            Id = 56,
-                            Password = "MEHQpB707d",
-                            Role = "professor",
-                            Username = "King_Langworth84"
-                        },
-                        new
-                        {
-                            Id = 57,
-                            Password = "EAApa_NzLK",
-                            Role = "professor",
-                            Username = "Tyson_Prosacco62"
-                        },
-                        new
-                        {
-                            Id = 58,
-                            Password = "5XZqrRGmiS",
-                            Role = "professor",
-                            Username = "Maida.Lesch39"
-                        },
-                        new
-                        {
-                            Id = 59,
-                            Password = "_Oh48FQs0b",
-                            Role = "professor",
-                            Username = "Jarod.Wilkinson"
-                        },
-                        new
-                        {
-                            Id = 60,
-                            Password = "I72aQw1Wde",
-                            Role = "professor",
-                            Username = "Brad.OKeefe73"
-                        },
-                        new
-                        {
-                            Id = 61,
-                            Password = "OdkabXjzra",
-                            Role = "secretary",
-                            Username = "Hester_Spinka72"
-                        },
-                        new
-                        {
-                            Id = 62,
-                            Password = "yEmbtdurhb",
-                            Role = "secretary",
-                            Username = "Deshawn_White63"
-                        },
-                        new
-                        {
-                            Id = 63,
-                            Password = "6gFqwF0tt7",
-                            Role = "secretary",
-                            Username = "Josiane.Schmidt18"
-                        },
-                        new
-                        {
-                            Id = 64,
-                            Password = "zlXckO7Anq",
-                            Role = "secretary",
-                            Username = "Assunta61"
-                        },
-                        new
-                        {
-                            Id = 65,
-                            Password = "90MZlkud3Q",
-                            Role = "secretary",
-                            Username = "Vesta_Runolfsdottir22"
                         });
                 });
 
