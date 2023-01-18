@@ -9,6 +9,8 @@ public class Professor
     public string Surname { get; set; }
     public string Department { get; set; }
 
+    public List<Course> Courses { get; set; }
+
     public int UserId { get; set; }
     public User User { get; set; }
 }

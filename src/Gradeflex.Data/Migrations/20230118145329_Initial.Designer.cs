@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gradeflex.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230118141431_Initial")]
+    [Migration("20230118145329_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

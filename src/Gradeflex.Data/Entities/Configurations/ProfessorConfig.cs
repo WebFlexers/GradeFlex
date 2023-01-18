@@ -20,5 +20,10 @@ public class ProfessorConfig : IEntityTypeConfiguration<Professor>
         builder.Property(prof => prof.Department)
             .IsRequired()
             .HasMaxLength(45);
+
+        builder.HasMany(prof => prof.Courses)
+            .WithOne(course => course.Professor)
+            .HasForeignKey(course => course.ProfessorId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
