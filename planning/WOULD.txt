@@ -32,4 +32,4 @@ https://www.figma.com/file/ORM1ndecGHS8y6nvJk1e4q/GradeFlex-Wireframe?node-id=7%
 4) L - Logic Design
 
 5) D - Database Design
-Located inside the assignment.pdf file
+Located in diagrams/database_diagram.pdf
