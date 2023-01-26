@@ -1,0 +1,10 @@
+﻿.login-container {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: var(--bs-white);
+    border-radius: 3rem;
+    padding: 2rem;
+    margin-top: 2rem;
+    max-width: 700px;
+}
