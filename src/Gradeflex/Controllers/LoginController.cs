@@ -36,23 +36,31 @@ public class LoginController : Controller
             if (user == null)
             {
                 ModelState.AddModelError("wrong_credentials", "Invalid username or password");
+                _logger.LogWarning("User tried to login with wrong credentials");
                 return View();
             }
+
+            // Used to query upon the logged in user in other controllers
+            TempData["logged_in_user_id"] = user.Id;
 
             switch (user.Role)
             {
                 case "student":
+                    _logger.LogInformation("Student with username '{1}' logged in", user.Username);
                     return RedirectToAction("Profile", "Student");
                 case "professor":
+                    _logger.LogInformation("Professor with username '{1}' logged in", user.Username);
                     return RedirectToAction("Profile", "Professor");
                 case "secretary":
+                    _logger.LogInformation("Secretary with username '{1}' logged in", user.Username);
                     return RedirectToAction("Profile", "Secretary");
             }
 
             return View();
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError(ex,"Exception occurred when trying to log in");
             return View();
         }
     }

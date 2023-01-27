@@ -22,7 +22,6 @@
   <ItemGroup>
     <Folder Include="Models\Secretary\" />
     <Folder Include="Models\Professor\" />
-    <Folder Include="Models\Student\" />
   </ItemGroup>
 
 </Project>

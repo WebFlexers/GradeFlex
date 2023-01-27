@@ -1,82 +1,49 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Gradeflex.Data;
+using Gradeflex.Data.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using Gradeflex.Models.Student;
 
 namespace Gradeflex.Controllers;
 
 public class StudentController : Controller
 {
+    private readonly ILogger<StudentController> _logger;
+    private readonly ApplicationDbContext _dbContext;
+
+    public StudentController(ILogger<StudentController> logger, ApplicationDbContext dbContext)
+    {
+        _logger = logger;
+        _dbContext = dbContext;
+    }
+
     // GET: StudentController
     public ActionResult Profile()
     {
-        return View();
-    }
-
-    // GET: StudentController/Details/5
-    public ActionResult Details(int id)
-    {
-        return View();
-    }
-
-    // GET: StudentController/Create
-    public ActionResult Create()
-    {
-        return View();
-    }
-
-    // POST: StudentController/Create
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Create(IFormCollection collection)
-    {
         try
         {
-            return RedirectToAction(nameof(Profile));
-        }
-        catch
-        {
-            return View();
-        }
-    }
+            int loggedInUserId = (int)TempData["logged_in_user_id"]!;
+            var student = _dbContext.Students.FirstOrDefault(student => student.UserId.Equals(loggedInUserId));
 
-    // GET: StudentController/Edit/5
-    public ActionResult Edit(int id)
-    {
-        return View();
-    }
+            if (student != null)
+            {
+                return View(new StudentModel
+                {
+                    Name = student.Name,
+                    Surname = student.Surname,
+                    Department = student.Department,
+                    RegistrationNumber = student.RegistrationNumber,
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error when trying to fetch student profile from the database");
+            return BadRequest("Failed to fetch profile. Try again later");
+        }
 
-    // POST: StudentController/Edit/5
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Edit(int id, IFormCollection collection)
-    {
-        try
-        {
-            return RedirectToAction(nameof(Index));
-        }
-        catch
-        {
-            return View();
-        }
-    }
-
-    // GET: StudentController/Delete/5
-    public ActionResult Delete(int id)
-    {
-        return View();
-    }
-
-    // POST: StudentController/Delete/5
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Delete(int id, IFormCollection collection)
-    {
-        try
-        {
-            return RedirectToAction(nameof(Index));
-        }
-        catch
-        {
-            return View();
-        }
+        return BadRequest();
     }
 }
