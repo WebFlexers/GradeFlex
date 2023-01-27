@@ -7,13 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2E7D2B3E-313
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EF9115AC-B4EB-4153-A5B6-901034BFD316}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gradeflex.Data", "src\Gradeflex.Data\Gradeflex.Data.csproj", "{C41D72D6-DB06-4F04-A404-3EFC9007F42A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gradeflex.Data", "src\Gradeflex.Data\Gradeflex.Data.csproj", "{C41D72D6-DB06-4F04-A404-3EFC9007F42A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gradeflex.Services", "src\Gradeflex.Services\Gradeflex.Services.csproj", "{2F87FF6E-DA97-42BB-BD5F-84DA606D2739}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gradeflex", "src\Gradeflex\Gradeflex.csproj", "{7A4DCFE5-793E-4891-B6A1-3CCC48CCC05B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gradeflex", "src\Gradeflex\Gradeflex.csproj", "{7A4DCFE5-793E-4891-B6A1-3CCC48CCC05B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gradeflex.UnitTests", "tests\Gradeflex.UnitTests\Gradeflex.UnitTests.csproj", "{361084B3-E392-4BA2-AD56-66773246DF72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gradeflex.UnitTests", "tests\Gradeflex.UnitTests\Gradeflex.UnitTests.csproj", "{361084B3-E392-4BA2-AD56-66773246DF72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{C41D72D6-DB06-4F04-A404-3EFC9007F42A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C41D72D6-DB06-4F04-A404-3EFC9007F42A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C41D72D6-DB06-4F04-A404-3EFC9007F42A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F87FF6E-DA97-42BB-BD5F-84DA606D2739}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F87FF6E-DA97-42BB-BD5F-84DA606D2739}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F87FF6E-DA97-42BB-BD5F-84DA606D2739}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F87FF6E-DA97-42BB-BD5F-84DA606D2739}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7A4DCFE5-793E-4891-B6A1-3CCC48CCC05B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7A4DCFE5-793E-4891-B6A1-3CCC48CCC05B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A4DCFE5-793E-4891-B6A1-3CCC48CCC05B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,7 +37,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C41D72D6-DB06-4F04-A404-3EFC9007F42A} = {2E7D2B3E-3138-44BD-AFCD-34DCF0392E8C}
-		{2F87FF6E-DA97-42BB-BD5F-84DA606D2739} = {2E7D2B3E-3138-44BD-AFCD-34DCF0392E8C}
 		{7A4DCFE5-793E-4891-B6A1-3CCC48CCC05B} = {2E7D2B3E-3138-44BD-AFCD-34DCF0392E8C}
 		{361084B3-E392-4BA2-AD56-66773246DF72} = {EF9115AC-B4EB-4153-A5B6-901034BFD316}
 	EndGlobalSection

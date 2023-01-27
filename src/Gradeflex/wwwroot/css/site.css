@@ -30,7 +30,7 @@ footer {
 }
 
 #brand-icon-bg {
-    fill: black;
+    fill: var(--bs-blue);
 }
 
 .brand-icon-svg {
@@ -46,6 +46,14 @@ footer {
     margin-top: 100px;
     margin-left: 1rem;
 }
+
+
+.login-form-label {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+
 
 @media (min-width: 768px) {
     html {

@@ -1,0 +1,46 @@
+﻿@model Gradeflex.Models.Login.UserModel
+
+@{
+    ViewData["Title"] = "Login Page";
+}
+
+<div class="text-center login-container">
+    <img src="images/logo_piraeus.png" alt="University of Piraeus logo" class="img-fluid">
+</div>
+
+<div class="text-center login-container">
+    <h1>Login</h1>
+    <p class="text-start">
+        Welcome to GradeFlex portal! Below you can enter
+        the username and password provided to you by the university
+    </p>
+    
+    <form asp-action="Login">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="login-form-container">
+            <label asp-for="Username" class="control-label login-form-label"></label>
+            <input asp-for="Username" type="text" class="form-control"/>
+            <div>
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+
+            <label asp-for="Password" class="control-label login-form-label"></label>
+            <input asp-for="Password" type="password" class="form-control"/>
+            <div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <input type="submit" value="Login" class="btn btn-primary login-form-btn"/>
+            
+            @if (ViewData.ModelState.IsValid == false)
+            {
+                <div class="text-danger mt-3">@ViewData.ModelState["wrong_credentials"]!.Errors[0].ErrorMessage</div>
+            }
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
