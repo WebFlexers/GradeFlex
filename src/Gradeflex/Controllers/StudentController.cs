@@ -24,26 +24,35 @@ public class StudentController : Controller
     {
         try
         {
+            if (TempData.ContainsKey("logged_in_user_id") == false)
+            {
+                _logger.LogWarning("TempData was accessed with no logged in user");
+                return BadRequest("No active user found. Have you logged in?");
+            }
+
             int loggedInUserId = (int)TempData["logged_in_user_id"]!;
             var student = _dbContext.Students.FirstOrDefault(student => student.UserId.Equals(loggedInUserId));
 
-            if (student != null)
+            if (student == null)
             {
-                return View(new StudentModel
-                {
-                    Name = student.Name,
-                    Surname = student.Surname,
-                    Department = student.Department,
-                    RegistrationNumber = student.RegistrationNumber,
-                });
+                var errorMessage = "The logged in user is not a student";
+                _logger.LogWarning(errorMessage);
+                return BadRequest(errorMessage);
             }
+
+            return View(new StudentModel
+            {
+                Name = student.Name,
+                Surname = student.Surname,
+                Department = student.Department,
+                RegistrationNumber = student.RegistrationNumber,
+            });
+
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error when trying to fetch student profile from the database");
             return BadRequest("Failed to fetch profile. Try again later");
         }
-
-        return BadRequest();
     }
 }
