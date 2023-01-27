@@ -74,7 +74,7 @@ public class SampleData
         Dictionary<string, int> departmentStartingRns = new();
         foreach (var department in _departments)
         {
-            departmentStartingRns[department] = 1900;
+            departmentStartingRns[department] = 19000;
         }
 
         int studentId = 1;
