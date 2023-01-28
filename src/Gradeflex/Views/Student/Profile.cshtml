@@ -1,8 +1,39 @@
-﻿@model Gradeflex.Models.Student.StudentModel
+﻿@model Gradeflex.Models.Student.StudentProfileModel
 
 @{
     ViewData["Title"] = "Student Profile";
+
+    string registrationNumberPrefix = string.Empty;
+    switch (Model.Department)
+    {
+        case "Informatics":
+            registrationNumberPrefix = "P";
+            break;
+        case "Economics":
+            registrationNumberPrefix = "E";
+            break;
+    }
 }
 
-<h1>Welcome @Model.Name @Model.Surname!</h1>
+<div class="centered-container">
+    <div class="d-md-inline-flex">
+        <h1>Welcome, @Model.Name!</h1>
+        <div class="ms-5">
+            <svg class="brand-icon-svg" xmlns="http://www.w3.org/2000/svg" height="4rem" width="4rem" viewBox="0 0 128 128">
+                <g>
+                    <ellipse class="brand-icon-bg-color" cy="64" cx="64" ry="64" rx="64" fill="#000000"/>
+                    <path class="brand-icon-color" transform="rotate(0,64,64) translate(28.9360008239746,28) scale(2.25,2.25)  " fill="#0000FF" d="M8.3560181,18.363037C10.371002,19.880005 12.873993,20.779053 15.584991,20.779053 18.295013,20.779053 20.799011,19.880005 22.813995,18.363037 27.524017,18.955994 31.167999,22.973022 31.167999,27.843994L31.167999,32 0,32 0,27.843994C0,22.973022,3.6459961,18.955994,8.3560181,18.363037z M15.584991,0C20.403992,0 24.311005,3.90802 24.311005,8.7280273 24.311005,13.548035 20.403992,17.454041 15.584991,17.454041 10.765015,17.454041 6.8580017,13.548035 6.8580017,8.7280273 6.8580017,3.90802 10.765015,0 15.584991,0z"/>
+                </g>
+            </svg>
+        </div>
+    </div>
+    <p class="mb-5">This is your profile page</p>
 
+    <p><span class="fw-bold">Registration Number: </span>@registrationNumberPrefix@Model.RegistrationNumber</p>
+    <p><span class="fw-bold">Full Name: </span>@Model.Name @Model.Surname</p>
+    <p><span class="fw-bold">Department: </span>@Model.Department</p>
+    
+    <div class="text-center big-button mt-5">
+        <a asp-controller="Student" asp-action="AllGrades" class="btn btn-primary">Go to my courses</a>
+    </div>
+</div>

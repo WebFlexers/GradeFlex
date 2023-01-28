@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Gradeflex.Data;
 using Gradeflex.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gradeflex.Controllers;
 
@@ -28,10 +29,12 @@ public class LoginController : Controller
     {
         try
         {
-            User? user = _dbContext.Users.FirstOrDefault(user =>
-                user.Username.Equals(collection["Username"]) &&
-                user.Password.Equals(collection["Password"])
-            );
+            User? user = _dbContext.Users
+                .AsNoTracking()
+                .FirstOrDefault(user =>
+                    user.Username.Equals(collection["Username"]) &&
+                    user.Password.Equals(collection["Password"])
+                );
 
             if (user == null)
             {

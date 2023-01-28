@@ -1,6 +1,6 @@
 ﻿namespace Gradeflex.Models.Student;
 
-public class StudentModel
+public class StudentProfileModel
 {
     public int RegistrationNumber { get; set; }
     public string Name { get; set; }
