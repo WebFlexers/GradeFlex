@@ -1,7 +1,50 @@
-﻿
+﻿@using Gradeflex.Data.Entities
+@model Gradeflex.Models.Student.CourseModel
+
 @{
     ViewData["Title"] = "SingleGrade";
 }
 
-<h1>SingleGrade</h1>
+<div class="title-container text-center">
+    <h2>@Model.Title</h2>
+</div>
 
+<div class="centered-container fs-4">
+    <h3 class="fs-2">Grades</h3>
+
+    @{
+        int exerciseCount = 1;
+        int assignmentCount = 1;
+    }
+
+    <div class="multiple-grades-container text-center">
+        @{
+            foreach (var grade in Model.AllGrades)
+            {
+                switch (grade.Type)
+                {
+                    case GradeType.ExerciseGrade:
+                        <div class="text-center">
+                            <p>Exercise @exerciseCount: </p>
+                            <p class="fw-bold text-center">@grade.Value</p>
+                        </div>
+                        exerciseCount++;
+                        break;
+                    case GradeType.AssignmentGrade:
+                        <div class="text-center">
+                            <p>Assignment @assignmentCount: </p>
+                            <p class="fw-bold text-center">@grade.Value</p>
+                        </div>
+                        assignmentCount++;
+                        break;
+                    case GradeType.FinalExamGrade:
+                        <div class="text-center">
+                            <p>Final Exam: </p>
+                            <p class="fw-bold text-center">@grade.Value</p>
+                        </div>
+                        break;
+                }
+            }
+        }
+    </div>
+</div>

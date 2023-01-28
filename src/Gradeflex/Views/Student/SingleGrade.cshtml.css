@@ -1,0 +1,14 @@
+﻿.multiple-grades-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    text-align: center;
+    align-items: center;
+    border-radius: 10px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: 1rem;
+    background-color: var(--secondary-bg-color);
+    color: black;
+}

@@ -21,7 +21,7 @@
 
         double totalGrade = allCoursesGrades.DefaultIfEmpty(0).Average();
     }
-    <h2>Total Grade: @totalGrade</h2>
+    <h2>Total Average: @totalGrade</h2>
 </div>
 
 @foreach (var semesterCourse in Model)
@@ -30,7 +30,7 @@
         <h2 class="text-center mb-2">Semester @semesterCourse.Key</h2>
         @foreach (var course in semesterCourse.Value)
         {
-            <a asp-controller="Student" asp-action="SingleGrade" class="text-decoration-none">
+            <a asp-controller="Student" asp-action="SingleGrade" asp-route-courseName="@course.Title" class="text-decoration-none">
                 <div class="grade-container">
                     <h3 class="text-center grade-title">@course.Title</h3>
                     <div class="grade-value-container">

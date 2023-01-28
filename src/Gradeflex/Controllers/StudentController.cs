@@ -1,12 +1,10 @@
-﻿using System.Runtime.InteropServices;
-using Bogus;
-using Gradeflex.Data;
+﻿using Gradeflex.Data;
 using Gradeflex.Data.Entities;
 using Gradeflex.Models.Student;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using System.Runtime.InteropServices;
 
 namespace Gradeflex.Controllers;
 
@@ -23,7 +21,6 @@ public class StudentController : Controller
         _cache = cache;
     }
 
-    // GET: StudentController
     public ActionResult Profile()
     {
         try
@@ -77,7 +74,8 @@ public class StudentController : Controller
                 return BadRequest("Something went wrong. Try to log in again");
             }
 
-            var studentCourses = _dbContext.CoursesStudents.AsNoTracking()
+            var studentCourses = _dbContext.CoursesStudents
+                .AsNoTracking()
                 .Where(cs => cs.StudentId.Equals(studentId))
                 .Include(cs => cs.Course)
                 .Select(cs => cs.Course)
@@ -162,6 +160,40 @@ public class StudentController : Controller
 
     public ActionResult SingleGrade(string courseName)
     {
-        return View();
+        var course = _dbContext.Courses
+            .AsNoTracking()
+            .FirstOrDefault(c => c.Title.Equals(courseName));
+
+        if (course == null)
+        {
+            _logger.LogError($"A false course name was provided in SingleGrade action on {nameof(StudentController)}");
+            return BadRequest("The course name you provided does not exist");
+        }
+
+        int studentId;
+
+        if (_cache.TryGetValue("student_id", out studentId) == false)
+        {
+            _logger.LogError("student_id not found when trying to get {courseName} information", course.Title);
+            return BadRequest("Something went wrong. Try to log in again");
+        }
+
+        var grades = _dbContext.Grades
+            .AsNoTracking()
+            .Where(grade => grade.CourseId.Equals(course.Id) &&
+                            grade.StudentId.Equals(studentId))
+            .ToList();
+
+        var courseModel = new CourseModel
+        {
+            Title = course.Title,
+            AllGrades = grades.Select(grade => new GradeModel
+            {
+                Value = grade.Value,
+                Type = grade.Type,
+            }).ToList(),
+        };
+
+        return View(courseModel);
     }
 }
