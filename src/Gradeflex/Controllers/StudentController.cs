@@ -160,7 +160,7 @@ public class StudentController : Controller
         }
     }
 
-    public ActionResult SingleGrade()
+    public ActionResult SingleGrade(string courseName)
     {
         return View();
     }

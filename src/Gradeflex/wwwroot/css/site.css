@@ -17,6 +17,9 @@ body {
     margin-bottom: 60px;
     background-color: var(--main-bg-color);
 }
+a {
+    text-underline: none;
+}
 
 header {
     background-color: var(--bs-white);
