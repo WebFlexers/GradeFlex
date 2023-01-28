@@ -10,7 +10,10 @@
     margin-top: 1rem;
     background-color: var(--secondary-bg-color);
     color: black;
-    text-decoration: none;
+}
+
+.grade-container:hover {
+    background-color: var(--secondary-bg-darker-color);
 }
 
 .grade-value-container {

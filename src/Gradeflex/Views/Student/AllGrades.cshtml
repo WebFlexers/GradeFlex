@@ -30,7 +30,7 @@
         <h2 class="text-center mb-2">Semester @semesterCourse.Key</h2>
         @foreach (var course in semesterCourse.Value)
         {
-            <a asp-controller="Student" asp-action="SingleGrade">
+            <a asp-controller="Student" asp-action="SingleGrade" class="text-decoration-none">
                 <div class="grade-container">
                     <h3 class="text-center grade-title">@course.Title</h3>
                     <div class="grade-value-container">
