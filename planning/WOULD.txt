@@ -24,7 +24,6 @@ It will contain students, teachers and secretaries.
 * ASP .NET MVC Web App
 * Entity Framework core-first
 * Microsoft SQL Server for the database
-* Azure Active Directory for authentication
 
 3) U - User Interface Design
 https://www.figma.com/file/ORM1ndecGHS8y6nvJk1e4q/GradeFlex-Wireframe?node-id=7%3A398&t=gZ2l4oIeklV2TGK5-0

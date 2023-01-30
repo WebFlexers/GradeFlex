@@ -16,7 +16,5 @@ public class CourseConfig : IEntityTypeConfiguration<Course>
         builder.Property(course => course.Semester)
             .IsRequired(true)
             .HasMaxLength(25);
-
-        
     }
 }

@@ -1,35 +1,70 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Gradeflex.Data;
+using Gradeflex.Models.Secretary;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gradeflex.Controllers;
 public class SecretaryController : Controller
 {
-    // GET: SecretaryController
+    private readonly ILogger<SecretaryController> _logger;
+    private readonly ApplicationDbContext _dbContext;
+
+    public SecretaryController(ILogger<SecretaryController> logger, ApplicationDbContext dbContext)
+    {
+        _logger = logger;
+        _dbContext = dbContext;
+    }
+
     public ActionResult Profile()
     {
-        return View();
+        try
+        {
+            if (TempData.ContainsKey("logged_in_user_id") == false)
+            {
+                _logger.LogWarning("TempData was accessed with no logged in user");
+                return BadRequest("No active user found. Have you logged in?");
+            }
+
+            int loggedInUserId = (int)TempData["logged_in_user_id"]!;
+            var secretary = _dbContext.Secretaries.FirstOrDefault(secretary => secretary.UserId.Equals(loggedInUserId));
+
+            if (secretary == null)
+            {
+                var errorMessage = "The logged in user is not a secretary";
+                _logger.LogWarning($"{errorMessage}. " + "User id: {id}", loggedInUserId);
+                return BadRequest(errorMessage);
+            }
+
+            // Keep the id for future queries
+            // _cache.Set("secretary_id", secretary.Id, TimeSpan.FromHours(5));
+
+            return View(new SecretaryProfileModel
+            {
+                Name = secretary.Name,
+                Surname = secretary.Surname,
+                Department = secretary.Department,
+                PhoneNumber = secretary.PhoneNumber,
+            });
+
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error when trying to fetch student profile from the database");
+            return BadRequest("Failed to fetch profile. Try again later");
+        }
     }
 
-    // GET: SecretaryController/Details/5
-    public ActionResult Details(int id)
+    public ActionResult RegisterCourses()
     {
         return View();
     }
 
-    // GET: SecretaryController/Create
-    public ActionResult Create()
-    {
-        return View();
-    }
-
-    // POST: SecretaryController/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create(IFormCollection collection)
+    public ActionResult RegisterCourses(IFormCollection collection)
     {
         try
         {
-            return RedirectToAction(nameof(Profile));
+            return RedirectToAction();
         }
         catch
         {
@@ -37,20 +72,18 @@ public class SecretaryController : Controller
         }
     }
 
-    // GET: SecretaryController/Edit/5
-    public ActionResult Edit(int id)
+    public ActionResult RegisterProfessors()
     {
         return View();
     }
 
-    // POST: SecretaryController/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(int id, IFormCollection collection)
+    public ActionResult RegisterProfessors(IFormCollection collection)
     {
         try
         {
-            return RedirectToAction(nameof(Profile));
+            return RedirectToAction();
         }
         catch
         {
@@ -58,24 +91,27 @@ public class SecretaryController : Controller
         }
     }
 
-    // GET: SecretaryController/Delete/5
-    public ActionResult Delete(int id)
+    public ActionResult RegisterStudents()
     {
         return View();
     }
 
-    // POST: SecretaryController/Delete/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Delete(int id, IFormCollection collection)
+    public ActionResult RegisterStudents(IFormCollection collection)
     {
         try
         {
-            return RedirectToAction(nameof(Profile));
+            return RedirectToAction();
         }
         catch
         {
             return View();
         }
+    }
+
+    public ActionResult CoursesManagement()
+    {
+        return View();
     }
 }

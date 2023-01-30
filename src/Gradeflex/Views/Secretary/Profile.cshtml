@@ -1,7 +1,41 @@
-﻿
+﻿@model Gradeflex.Models.Secretary.SecretaryProfileModel
+
 @{
-    ViewData["Title"] = "Secretary";
+    ViewData["Title"] = "MainMenu";
 }
 
-<h1>Secretary</h1>
+<div class="centered-container text-center">
 
+    <h1>Welcome, @Model.Name!</h1>
+
+    <svg class="brand-icon-svg mb-2" xmlns="http://www.w3.org/2000/svg" height="4rem" width="4rem" viewBox="0 0 128 128">
+        <g>
+            <ellipse class="brand-icon-bg-color" cy="64" cx="64" ry="64" rx="64" fill="#000000" />
+            <path class="brand-icon-color" transform="rotate(0,64,64) translate(28.9360008239746,28) scale(2.25,2.25)  " fill="#0000FF" d="M8.3560181,18.363037C10.371002,19.880005 12.873993,20.779053 15.584991,20.779053 18.295013,20.779053 20.799011,19.880005 22.813995,18.363037 27.524017,18.955994 31.167999,22.973022 31.167999,27.843994L31.167999,32 0,32 0,27.843994C0,22.973022,3.6459961,18.955994,8.3560181,18.363037z M15.584991,0C20.403992,0 24.311005,3.90802 24.311005,8.7280273 24.311005,13.548035 20.403992,17.454041 15.584991,17.454041 10.765015,17.454041 6.8580017,13.548035 6.8580017,8.7280273 6.8580017,3.90802 10.765015,0 15.584991,0z" />
+        </g>
+    </svg>
+
+    <p class="mb-5">This is the main admin panel</p>
+
+    <p><span class="fw-bold">Phone Number: </span>@Model.PhoneNumber</p>
+    <p><span class="fw-bold">Full Name: </span>@Model.Name @Model.Surname</p>
+    <p><span class="fw-bold">Department: </span>@Model.Department</p>
+</div>
+
+<div class="centered-container mt-4">
+    <h2>Register Options</h2>
+
+    <div class="text-center">
+        <a asp-controller="Secretary" asp-action="RegisterCourses" class="btn btn-primary m-3">Register Courses</a>
+        <a asp-controller="Secretary" asp-action="RegisterProfessors" class="btn btn-primary m-3">Register Professors</a>
+        <a asp-controller="Secretary" asp-action="RegisterStudents" class="btn btn-primary m-3">Register Students</a>
+    </div>
+</div>
+
+<div class="centered-container mt-4">
+    <h2>Management Options</h2>
+
+    <div class="text-center">
+        <a asp-controller="Secretary" asp-action="CoursesManagement" class="btn btn-primary m-3">Go To Courses Management</a>
+    </div>
+</div>
