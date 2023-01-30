@@ -25,9 +25,7 @@ public class StudentController : Controller
     {
         try
         {
-            int loggedInUserId;
-
-            if (_cache.TryGetValue("logged_in_user_id", out loggedInUserId) == false)
+            if (_cache.TryGetValue("logged_in_user_id", out int loggedInUserId) == false)
             {
                 _logger.LogWarning("Cached logged in user id was attempted to be accessed with no logged in user");
                 return BadRequest("No active user found. Have you logged in?");
@@ -67,9 +65,7 @@ public class StudentController : Controller
 
         try
         {
-            int studentId;
-
-            if (_cache.TryGetValue("student_id", out studentId) == false)
+            if (_cache.TryGetValue("student_id", out int studentId) == false)
             {
                 _logger.LogError("student_id not found when trying to get courses and their grades for the logged in user");
                 return BadRequest("Something went wrong. Try to log in again");

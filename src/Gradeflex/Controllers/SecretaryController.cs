@@ -23,9 +23,7 @@ public class SecretaryController : Controller
     {
         try
         {
-            int loggedInUserId;
-
-            if (_cache.TryGetValue("logged_in_user_id", out loggedInUserId) == false)
+            if (_cache.TryGetValue("logged_in_user_id", out int loggedInUserId) == false)
             {
                 _logger.LogWarning("Cached logged in user id was attempted to be accessed with no logged in user");
                 return BadRequest("No active user found. Have you logged in?");
@@ -128,8 +126,7 @@ public class SecretaryController : Controller
                 return BadRequest("Failed to register professor. Some fields were invalid");
             }
 
-            int afm;
-            if (Int32.TryParse(afmString, out afm) == false)
+            if (Int32.TryParse(afmString, out var afm) == false)
             {
                 _logger.LogError("Tried to register professor with invalid afm");
                 return BadRequest("Failed to register professor. Some fields were invalid");
@@ -178,11 +175,55 @@ public class SecretaryController : Controller
     {
         try
         {
-            return RedirectToAction();
+            var registrationNumberString = collection[nameof(RegisterStudentModel.RegistrationNumber)];
+            var name = collection[nameof(RegisterStudentModel.Name)];
+            var surname = collection[nameof(RegisterStudentModel.Surname)];
+            var department = collection[nameof(RegisterStudentModel.Department)];
+
+            var username = collection[nameof(RegisterStudentModel.Username)];
+            var password = collection[nameof(RegisterStudentModel.Password)];
+
+            if (ModelState.IsValid == false)
+            {
+                _logger.LogError("Tried to register student with 1 or more empty values");
+                return BadRequest("Failed to register student. Some fields were invalid");
+            }
+
+            if (Int32.TryParse(registrationNumberString, out var registrationNumber) == false)
+            {
+                _logger.LogError("Tried to register student with invalid afm");
+                return BadRequest("Failed to register student. Some fields were invalid");
+            }
+
+            // Run SaveChanges immediately after adding the user to retrieve the newly created id
+            var user = new User
+            {
+                Username = username,
+                Password = password,
+                Role = "student"
+            };
+
+            _dbContext.Users.Add(user);
+            _dbContext.SaveChanges();
+
+            _dbContext.Students.Add(new Student
+            {
+                RegistrationNumber = registrationNumber,
+                Name = name,
+                Surname = surname,
+                Department = department,
+                UserId = user.Id,
+            });
+
+            _dbContext.SaveChanges();
+
+            var message = "Successfully Registered Student";
+            return RedirectToAction("SuccessMessage", "Secretary", new { message });
         }
-        catch
+        catch (Exception ex)
         {
-            return View();
+            _logger.LogError(ex, "Exception thrown when trying to register a new student");
+            return BadRequest("Registration failed. Try again later");
         }
     }
 

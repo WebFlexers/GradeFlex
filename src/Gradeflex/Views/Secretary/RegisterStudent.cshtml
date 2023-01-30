@@ -1,6 +1,77 @@
-﻿
+﻿@model Gradeflex.Models.Secretary.RegisterStudentModel
+
 @{
     ViewData["Title"] = "RegisterStudent";
 }
 
-<h1>RegisterStudent</h1>
+<div class="title-container text-center">
+    <h1>Register Student</h1>
+</div>
+
+<form asp-action="RegisterStudent">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="centered-container text-center">
+        <h2 class="fs-4">Personal Information</h2>
+
+        <div class="login-form-container">
+            <label asp-for="RegistrationNumber" class="control-label login-form-label"></label>
+            <input asp-for="RegistrationNumber" type="text" class="form-control" />
+            <div>
+                <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+            </div>
+
+            <label asp-for="Name" class="control-label login-form-label"></label>
+            <input asp-for="Name" type="text" class="form-control" />
+            <div>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <label asp-for="Surname" class="control-label login-form-label"></label>
+            <input asp-for="Surname" type="text" class="form-control" />
+            <div>
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+
+            <label asp-for="Department" class="control-label login-form-label"></label>
+            <input asp-for="Department" type="text" class="form-control" />
+            <div>
+                <span asp-validation-for="Department" class="text-danger"></span>
+            </div>
+
+            @if (ViewData.ModelState.IsValid == false)
+            {
+                <div class="text-danger mt-3">@ViewData.ModelState["wrong_credentials"]!.Errors[0].ErrorMessage</div>
+            }
+        </div>
+    </div>
+
+    <div class="centered-container text-center">
+        <h2 class="fs-4">Account Information</h2>
+
+        <div class="login-form-container">
+            <label asp-for="Username" class="control-label login-form-label"></label>
+            <input asp-for="Username" type="text" class="form-control" />
+            <div>
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+
+            <label asp-for="Password" class="control-label login-form-label"></label>
+            <input asp-for="Password" type="password" class="form-control" />
+            <div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="centered-container text-center">
+        <input type="submit" value="Register Student" class="btn btn-primary submit-form-btn mt-0" />
+    </div>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
