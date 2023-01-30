@@ -1,7 +1,5 @@
 ﻿using Bogus;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 
 namespace Gradeflex.Data.Entities.Seeding;
 

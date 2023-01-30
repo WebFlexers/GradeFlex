@@ -1,0 +1,12 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "SuccessMessage";
+}
+
+<div class="centered-container text-center">
+    <h1 class="text-success fs-3">@Model</h1>
+    <div class="text-center">
+        <a asp-controller="Secretary" asp-action="Profile" class="btn btn-primary m-3">Go Back To Admin Panel</a>
+    </div>
+</div>

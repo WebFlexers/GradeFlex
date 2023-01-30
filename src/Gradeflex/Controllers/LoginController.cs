@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Gradeflex.Data;
 using Gradeflex.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Gradeflex.Controllers;
 
@@ -11,11 +12,13 @@ public class LoginController : Controller
 {
     private readonly ILogger<LoginController> _logger;
     private readonly ApplicationDbContext _dbContext;
+    private readonly IMemoryCache _cache;
 
-    public LoginController(ILogger<LoginController> logger, ApplicationDbContext dbContext)
+    public LoginController(ILogger<LoginController> logger, ApplicationDbContext dbContext, IMemoryCache cache)
     {
         _logger = logger;
         _dbContext = dbContext;
+        _cache = cache;
     }
 
     public IActionResult Login()
@@ -44,7 +47,7 @@ public class LoginController : Controller
             }
 
             // Used to query upon the logged in user in other controllers
-            TempData["logged_in_user_id"] = user.Id;
+            _cache.Set("logged_in_user_id", user.Id, TimeSpan.FromHours(5));
 
             switch (user.Role)
             {

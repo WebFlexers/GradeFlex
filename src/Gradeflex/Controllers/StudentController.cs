@@ -25,13 +25,14 @@ public class StudentController : Controller
     {
         try
         {
-            if (TempData.ContainsKey("logged_in_user_id") == false)
+            int loggedInUserId;
+
+            if (_cache.TryGetValue("logged_in_user_id", out loggedInUserId) == false)
             {
-                _logger.LogWarning("TempData was accessed with no logged in user");
+                _logger.LogWarning("Cached logged in user id was attempted to be accessed with no logged in user");
                 return BadRequest("No active user found. Have you logged in?");
             }
 
-            int loggedInUserId = (int)TempData["logged_in_user_id"]!;
             var student = _dbContext.Students.FirstOrDefault(student => student.UserId.Equals(loggedInUserId));
 
             if (student == null)
