@@ -127,7 +127,7 @@ public class SecretaryController : Controller
 
             if (Int32.TryParse(afmString, out var afm) == false)
             {
-                _logger.LogError("Tried to register professor with invalid afm");
+                _logger.LogError("Tried to register professor with invalid Afm");
                 return BadRequest("Failed to register professor. Some fields were invalid");
             }
 
@@ -190,7 +190,7 @@ public class SecretaryController : Controller
 
             if (Int32.TryParse(registrationNumberString, out var registrationNumber) == false)
             {
-                _logger.LogError("Tried to register student with invalid afm");
+                _logger.LogError("Tried to register student with invalid Afm");
                 return BadRequest("Failed to register student. Some fields were invalid");
             }
 
@@ -407,7 +407,7 @@ public class SecretaryController : Controller
 
             if (professor == null)
             {
-                message = "Failed to assign the course, because the afm " +
+                message = "Failed to assign the course, because the Afm " +
                           $"you provided didn't match with a professor in the {department} department";
                 return RedirectToAction("ErrorMessage", "Secretary", new { message });
             }
@@ -417,7 +417,7 @@ public class SecretaryController : Controller
             _dbContext.SaveChanges();
 
             message = $"Successfully Assigned Course to Professor {professor.Name} {professor.Surname} " +
-                      $"with afm: {professor.Afm}";
+                      $"with Afm: {professor.Afm}";
             return RedirectToAction("SuccessMessage", "Secretary", new { message });
 
         }

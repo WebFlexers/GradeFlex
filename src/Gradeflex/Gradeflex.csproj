@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Gradeflex.Data\Gradeflex.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Professor\" />
-  </ItemGroup>
-
 </Project>
