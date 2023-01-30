@@ -247,6 +247,7 @@ public class SecretaryController : Controller
 
                 var courseViewModel = new CourseViewModel
                 {
+                    Id = course.Id,
                     Semester = course.Semester,
                     Title = course.Title,
                     Department = course.Professor.Department,
@@ -273,18 +274,92 @@ public class SecretaryController : Controller
         }
     }
 
-    public ActionResult ProfessorCourseAssignment()
+    public ActionResult StudentCourseDeclaration(int courseId, string department)
     {
-        return View();
+        return View(new StudentCourseDeclarationModel
+        {
+            CourseId = courseId,
+            Department = department
+        });
     }
 
-    public ActionResult StudentCourseDeclaration()
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult StudentCourseDeclaration(IFormCollection collection)
     {
-        return View();
+        try
+        {
+            if (ModelState.IsValid == false)
+            {
+                _logger.LogError("Bad information request on student course declaration");
+                return BadRequest("Declaring the course failed");
+            }
+
+            if (Int32.TryParse(collection[nameof(StudentCourseDeclarationModel.CourseId)],
+                    out var courseId) == false ||
+                Int32.TryParse(collection[nameof(StudentCourseDeclarationModel.RegistrationNumber)],
+                    out var registrationNumber) == false)
+            {
+                _logger.LogError("Bad information request on student course declaration");
+                return BadRequest("Declaring the course failed");
+            }
+
+            var department = collection[nameof(StudentCourseDeclarationModel.Department)];
+
+            var student = _dbContext.Students
+                .AsNoTracking()
+                .FirstOrDefault(student => student.RegistrationNumber.Equals(registrationNumber) && 
+                                           student.Department.Equals(department));
+
+            if (student == null)
+            {
+                var message = "Failed to declare the course, because the student registration " +
+                              $"number you provided wasn't found in the {department} department";
+                return RedirectToAction("ErrorMessage", "Secretary", new { message });
+            }
+
+            var courseStudent = _dbContext.CoursesStudents
+                .AsNoTracking()
+                .FirstOrDefault(
+                    cs => cs.CourseId.Equals(courseId) && cs.StudentId.Equals(student.Id)
+                );
+
+            if (courseStudent == null)
+            {
+                _dbContext.CoursesStudents.Add(new CourseStudent
+                {
+                    CourseId = courseId,
+                    StudentId = student.Id
+                });
+
+                _dbContext.SaveChanges();
+
+                var message = $"Successfully Declared Course for Student {student.Name} {student.Surname} " +
+                              $"with Registration Number: {student.RegistrationNumber}";
+                return RedirectToAction("SuccessMessage", "Secretary", new { message });
+            }
+
+            return BadRequest("Something went wrong");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An exception was thrown when trying to declare course for student");
+            return BadRequest("Declaring the course failed");
+        }
+    }
+
+    public ActionResult ProfessorCourseAssignment(int courseId, string department)
+    {
+        return View(courseId);
     }
 
     public ActionResult SuccessMessage(string message)
     {
         return View(nameof(SuccessMessage), message);
+    }
+
+    public ActionResult ErrorMessage(string message)
+    {
+        return View(nameof(ErrorMessage), message);
     }
 }

@@ -1,11 +1,12 @@
 ﻿@model IDictionary<string, List<Gradeflex.Models.Secretary.CourseViewModel>>
 
 @{
+    string department = Model.ElementAt(0).Value[0].Department;
     ViewData["Title"] = "CoursesManagement";
 }
 
 <div class="title-container text-center">
-    <h1>All Courses Of @Model.ElementAt(0).Value[0].Department Department</h1>
+    <h1>All Courses Of @department Department</h1>
 </div>
 
 @foreach (var semesterCourse in Model)
@@ -30,8 +31,14 @@
                     }
                 </div>
                 <div class="text-center">
-                    <a asp-controller="Secretary" asp-action="StudentCourseDeclaration" class="btn btn-primary m-3">Declare For Student</a>
-                    <a asp-controller="Secretary" asp-action="ProfessorCourseAssignment" class="btn btn-primary m-3">Assign To New Professor</a>
+                    <a asp-controller="Secretary" asp-action="StudentCourseDeclaration" 
+                       asp-route-courseId="@course.Id" asp-route-department="@course.Department" class="btn btn-primary m-3">
+                        Declare For Student
+                    </a>
+                    <a asp-controller="Secretary" asp-action="ProfessorCourseAssignment" 
+                       asp-route-courseId="@course.Id" asp-route-department="@course.Department" class="btn btn-primary m-3">
+                        Assign To New Professor
+                    </a>
                 </div>
             </div>
         }
