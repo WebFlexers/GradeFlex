@@ -36,6 +36,9 @@
     <h2>Management Options</h2>
 
     <div class="text-center">
-        <a asp-controller="Secretary" asp-action="CoursesManagement" class="btn btn-primary m-3">Go To Courses Management</a>
+        <a asp-controller="Secretary" asp-action="CoursesManagement" asp-route-department="@Model.Department" 
+            class="btn btn-primary m-3">
+                Go To Courses Management
+        </a>
     </div>
 </div>

@@ -1,8 +1,8 @@
-﻿using System.Text.RegularExpressions;
-using Gradeflex.Data;
+﻿using Gradeflex.Data;
 using Gradeflex.Data.Entities;
 using Gradeflex.Models.Secretary;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Gradeflex.Controllers;
@@ -227,7 +227,58 @@ public class SecretaryController : Controller
         }
     }
 
-    public ActionResult CoursesManagement()
+    public ActionResult CoursesManagement(string department)
+    {
+        try
+        {
+            var courses = _dbContext.Courses
+                .AsNoTracking()
+                .Include(course => course.Professor)
+                .ToList();
+
+            Dictionary<string, List<CourseViewModel>> semesterCourses = new();
+
+            foreach (var course in courses.OrderByDescending(c => c.Semester))
+            {
+                if (course.Professor.Department.Equals(department) == false)
+                {
+                    continue;
+                }
+
+                var courseViewModel = new CourseViewModel
+                {
+                    Semester = course.Semester,
+                    Title = course.Title,
+                    Department = course.Professor.Department,
+                    ProfessorName = course.Professor.Name,
+                    ProfessorSurname = course.Professor.Surname
+                };
+
+                if (semesterCourses.ContainsKey(course.Semester))
+                {
+                    semesterCourses[course.Semester].Add(courseViewModel);
+                }
+                else
+                {
+                    semesterCourses.Add(course.Semester, new List<CourseViewModel> { courseViewModel });
+                }
+            }
+
+            return View(semesterCourses);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception thrown when trying to get all courses for the secretary");
+            return BadRequest("Loading courses failed");
+        }
+    }
+
+    public ActionResult ProfessorCourseAssignment()
+    {
+        return View();
+    }
+
+    public ActionResult StudentCourseDeclaration()
     {
         return View();
     }

@@ -1,7 +1,39 @@
-﻿
+﻿@model IDictionary<string, List<Gradeflex.Models.Secretary.CourseViewModel>>
+
 @{
     ViewData["Title"] = "CoursesManagement";
 }
 
-<h1>CoursesManagement</h1>
+<div class="title-container text-center">
+    <h1>All Courses Of @Model.ElementAt(0).Value[0].Department Department</h1>
+</div>
 
+@foreach (var semesterCourse in Model)
+{
+    <div class="centered-container">
+        <h2 class="text-center mb-2">Semester @semesterCourse.Key</h2>
+        @foreach (var course in semesterCourse.Value)
+        {
+            <div class="course-item-container pt-4">
+                <div class="text-center">
+                    <h3 class="fs-3 fw-normal">Title:</h3>
+                    <p class="fs-4 fw-bold">@course.Title</p>
+
+                    @if (string.IsNullOrWhiteSpace(course.ProfessorName))
+                    {
+                        <h3 class="fs-3 fw-normal">No professor has been assigned</h3>
+                    }
+                    else
+                    {
+                        <h3 class="fs-3 fw-normal">Assigned professor:</h3>
+                        <p class="fs-4 fw-bold">@course.ProfessorName @course.ProfessorSurname</p>
+                    }
+                </div>
+                <div class="text-center">
+                    <a asp-controller="Secretary" asp-action="StudentCourseDeclaration" class="btn btn-primary m-3">Declare For Student</a>
+                    <a asp-controller="Secretary" asp-action="ProfessorCourseAssignment" class="btn btn-primary m-3">Assign To New Professor</a>
+                </div>
+            </div>
+        }
+    </div>
+}
