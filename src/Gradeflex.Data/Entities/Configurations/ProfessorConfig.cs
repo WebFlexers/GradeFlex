@@ -9,6 +9,9 @@ public class ProfessorConfig : IEntityTypeConfiguration<Professor>
     {
         builder.HasKey(prof => prof.Id);
 
+        builder.HasIndex(prof => prof.Afm)
+            .IsUnique();
+
         builder.Property(prof => prof.Name)
             .IsRequired()
             .HasMaxLength(45);

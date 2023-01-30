@@ -4,6 +4,7 @@ using Gradeflex.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gradeflex.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230130141106_MakeProfessorAfmUnique")]
+    partial class MakeProfessorAfmUnique
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,6 @@ namespace Gradeflex.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Department")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ProfessorId")
                         .HasColumnType("int");
@@ -56,7 +56,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Department = "Informatics",
                             ProfessorId = 1,
                             Semester = "5",
                             Title = "Databases and modeling"
@@ -64,7 +63,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 2,
-                            Department = "Informatics",
                             ProfessorId = 1,
                             Semester = "7",
                             Title = "Analysis of biological sequences and structures"
@@ -72,7 +70,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 3,
-                            Department = "Informatics",
                             ProfessorId = 2,
                             Semester = "7",
                             Title = "Introduction to Systems Development"
@@ -80,7 +77,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 4,
-                            Department = "Informatics",
                             ProfessorId = 2,
                             Semester = "4",
                             Title = "Concurrent programming"
@@ -88,7 +84,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 5,
-                            Department = "Informatics",
                             ProfessorId = 3,
                             Semester = "7",
                             Title = "Category Theory"
@@ -96,7 +91,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 6,
-                            Department = "Informatics",
                             ProfessorId = 3,
                             Semester = "4",
                             Title = "Complexity Theory"
@@ -104,7 +98,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 7,
-                            Department = "Economics",
                             ProfessorId = 4,
                             Semester = "8",
                             Title = "Introduction to Economic Analysis ΙΙ"
@@ -112,7 +105,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 8,
-                            Department = "Economics",
                             ProfessorId = 4,
                             Semester = "3",
                             Title = "Microeconomic Theory"
@@ -120,7 +112,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 9,
-                            Department = "Informatics",
                             ProfessorId = 5,
                             Semester = "7",
                             Title = "Applied Cryptography"
@@ -128,7 +119,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 10,
-                            Department = "Informatics",
                             ProfessorId = 5,
                             Semester = "3",
                             Title = "Object-oriented programming"
@@ -136,7 +126,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 11,
-                            Department = "Economics",
                             ProfessorId = 6,
                             Semester = "8",
                             Title = "Principles of Financial Accounting"
@@ -144,7 +133,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 12,
-                            Department = "Economics",
                             ProfessorId = 6,
                             Semester = "5",
                             Title = "Statistics ΙΙ"
@@ -152,7 +140,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 13,
-                            Department = "Economics",
                             ProfessorId = 7,
                             Semester = "5",
                             Title = "Introduction to Econometrics"
@@ -160,7 +147,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 14,
-                            Department = "Economics",
                             ProfessorId = 7,
                             Semester = "7",
                             Title = "Statistics"
@@ -168,7 +154,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 15,
-                            Department = "Informatics",
                             ProfessorId = 8,
                             Semester = "8",
                             Title = "Computer Networks"
@@ -176,7 +161,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 16,
-                            Department = "Informatics",
                             ProfessorId = 8,
                             Semester = "5",
                             Title = "Introduction to operating Systems"
@@ -184,7 +168,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 17,
-                            Department = "Economics",
                             ProfessorId = 9,
                             Semester = "1",
                             Title = "Macroeconomic Theory"
@@ -192,7 +175,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 18,
-                            Department = "Economics",
                             ProfessorId = 9,
                             Semester = "5",
                             Title = "Economic History"
@@ -200,7 +182,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 19,
-                            Department = "Economics",
                             ProfessorId = 10,
                             Semester = "3",
                             Title = "Introduction to Economic Analysis"
@@ -208,7 +189,6 @@ namespace Gradeflex.Data.Migrations
                         new
                         {
                             Id = 20,
-                            Department = "Economics",
                             ProfessorId = 10,
                             Semester = "8",
                             Title = "Mathematics for Economists Ι"

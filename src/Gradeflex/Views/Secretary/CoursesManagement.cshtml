@@ -22,7 +22,7 @@
 
                     @if (string.IsNullOrWhiteSpace(course.ProfessorName))
                     {
-                        <h3 class="fs-3 fw-normal">No professor has been assigned</h3>
+                        <h3 class="fs-3 fw-normal text-danger">No professor has been assigned</h3>
                     }
                     else
                     {
@@ -35,7 +35,7 @@
                        asp-route-courseId="@course.Id" asp-route-department="@course.Department" class="btn btn-primary m-3">
                         Declare For Student
                     </a>
-                    <a asp-controller="Secretary" asp-action="ProfessorCourseAssignment" 
+                    <a asp-controller="Secretary" asp-action="ProfessorCourseAssignment"
                        asp-route-courseId="@course.Id" asp-route-department="@course.Department" class="btn btn-primary m-3">
                         Assign To New Professor
                     </a>

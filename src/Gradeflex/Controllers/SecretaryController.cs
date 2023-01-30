@@ -57,9 +57,12 @@ public class SecretaryController : Controller
         }
     }
 
-    public ActionResult RegisterCourse()
+    public ActionResult RegisterCourse(string department)
     {
-        return View();
+        return View(new RegisterCourseModel
+        {
+            Department = department
+        });
     }
 
     [HttpPost]
@@ -68,25 +71,21 @@ public class SecretaryController : Controller
     {
         try
         {
-            var title = collection["Title"];
-            var semester = collection["Semester"];
-
-            if (string.IsNullOrEmpty(title))
+            if (ModelState.IsValid == false)
             {
-                _logger.LogError("Tried to register course with empty title");
-                return BadRequest("Failed to register course. Title can't be null");
+                _logger.LogError("Tried to register course with invalid data");
+                return BadRequest("Failed to register course. Provided data was invalid");
             }
 
-            if (string.IsNullOrEmpty(semester))
-            {
-                _logger.LogError("Tried to register course with empty semester");
-                return BadRequest("Failed to register course. Semester can't be null");
-            }
+            var title = collection[nameof(RegisterCourseModel.Title)];
+            var semester = collection[nameof(RegisterCourseModel.Semester)];
+            var department = collection[nameof(RegisterCourseModel.Department)];
 
             _dbContext.Courses.Add(new Course
             {
                 Title = title,
-                Semester = semester
+                Semester = semester,
+                Department = department
             });
 
             _dbContext.SaveChanges();
@@ -240,7 +239,7 @@ public class SecretaryController : Controller
 
             foreach (var course in courses.OrderByDescending(c => c.Semester))
             {
-                if (course.Professor.Department.Equals(department) == false)
+                if (course.Department.Equals(department) == false)
                 {
                     continue;
                 }
@@ -250,10 +249,14 @@ public class SecretaryController : Controller
                     Id = course.Id,
                     Semester = course.Semester,
                     Title = course.Title,
-                    Department = course.Professor.Department,
-                    ProfessorName = course.Professor.Name,
-                    ProfessorSurname = course.Professor.Surname
+                    Department = course.Department,
                 };
+
+                if (course.Professor != null)
+                {
+                    courseViewModel.ProfessorName = course.Professor.Name;
+                    courseViewModel.ProfessorSurname = course.Professor.Surname;
+                }
 
                 if (semesterCourses.ContainsKey(course.Semester))
                 {
@@ -338,8 +341,12 @@ public class SecretaryController : Controller
                               $"with Registration Number: {student.RegistrationNumber}";
                 return RedirectToAction("SuccessMessage", "Secretary", new { message });
             }
-
-            return BadRequest("Something went wrong");
+            else
+            {
+                var message = "Failed to declare the course, because it is already declared " +
+                              $"for {student.Name} {student.Surname} with registration number {student.RegistrationNumber}";
+                return RedirectToAction("ErrorMessage", "Secretary", new { message });
+            }
         }
         catch (Exception ex)
         {
@@ -350,7 +357,75 @@ public class SecretaryController : Controller
 
     public ActionResult ProfessorCourseAssignment(int courseId, string department)
     {
-        return View(courseId);
+        return View(new ProfessorCourseAssignmentModel
+        {
+            CourseId = courseId,
+            Department = department
+        });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult ProfessorCourseAssignment(IFormCollection collection)
+    {
+        try
+        {
+            if (ModelState.IsValid == false)
+            {
+                _logger.LogError("Bad information request on professor course assignment");
+                return BadRequest("Assigning the course to professor failed");
+            }
+
+            var department = collection[nameof(ProfessorCourseAssignmentModel.Department)];
+
+            if (Int32.TryParse(collection[nameof(ProfessorCourseAssignmentModel.CourseId)],
+                    out var courseId) == false ||
+                Int32.TryParse(collection[nameof(ProfessorCourseAssignmentModel.Afm)],
+                    out var professorAfm) == false)
+            {
+                _logger.LogError("Invalid course id or professor id when assigning professor to course");
+                return BadRequest("Assigning the course to professor failed");
+            }
+
+            var selectedCourse = _dbContext.Courses
+                .FirstOrDefault(course => course.Id.Equals(courseId));
+
+            if (selectedCourse == null)
+            {
+                _logger.LogError(
+                    "The given course id: {id} couldn't be matched with a course when assigning professor to course",
+                    courseId
+                );
+                return BadRequest("Assigning the course to professor failed");
+            }
+
+            var professor = _dbContext.Professors
+                .FirstOrDefault(prof => prof.Afm.Equals(professorAfm) &&
+                                                 prof.Department.Equals(department));
+
+            string message;
+
+            if (professor == null)
+            {
+                message = "Failed to assign the course, because the afm " +
+                          $"you provided didn't match with a professor in the {department} department";
+                return RedirectToAction("ErrorMessage", "Secretary", new { message });
+            }
+
+            selectedCourse.ProfessorId = professor.Id;
+
+            _dbContext.SaveChanges();
+
+            message = $"Successfully Assigned Course to Professor {professor.Name} {professor.Surname} " +
+                      $"with afm: {professor.Afm}";
+            return RedirectToAction("SuccessMessage", "Secretary", new { message });
+
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An exception was thrown while assigning a course to a professor");
+            return BadRequest("Failed to assign course to professor");
+        }
     }
 
     public ActionResult SuccessMessage(string message)

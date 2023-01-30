@@ -13,4 +13,9 @@ public class RegisterCourseModel
     [StringLength(25, MinimumLength = 1)]
     [Display(Name = "Semester")]
     public string Semester { get; set; }
+
+    [Required]
+    [StringLength(45, MinimumLength = 2)]
+    [Display(Name = "Department")]
+    public string Department { get; set; }
 }

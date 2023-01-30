@@ -26,7 +26,7 @@
     <h2>Register Options</h2>
 
     <div class="text-center">
-        <a asp-controller="Secretary" asp-action="RegisterCourse" class="btn btn-primary m-3">Register Courses</a>
+        <a asp-controller="Secretary" asp-action="RegisterCourse" asp-route-department="@Model.Department" class="btn btn-primary m-3">Register Courses</a>
         <a asp-controller="Secretary" asp-action="RegisterProfessor" class="btn btn-primary m-3">Register Professors</a>
         <a asp-controller="Secretary" asp-action="RegisterStudent" class="btn btn-primary m-3">Register Students</a>
     </div>

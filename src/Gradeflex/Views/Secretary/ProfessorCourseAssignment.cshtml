@@ -1,7 +1,37 @@
-﻿
+﻿@model Gradeflex.Models.Secretary.ProfessorCourseAssignmentModel
+
 @{
     ViewData["Title"] = "ProfessorCourseAssignment";
 }
 
-<h1>ProfessorCourseAssignment</h1>
+<div class="text-center centered-container">
+    <h1>Course Assignment</h1>
 
+    <form asp-action="ProfessorCourseAssignment">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="login-form-container">
+            <label asp-for="Afm" class="control-label login-form-label"></label>
+            <input asp-for="Afm" type="text" class="form-control" />
+            <div>
+                <span asp-validation-for="Afm" class="text-danger"></span>
+            </div>
+
+            <input asp-for="CourseId" type="hidden" value="@Model.CourseId" />
+            <input asp-for="Department" type="hidden" value="@Model.Department" />
+
+            <input type="submit" value="Assign Course" class="btn btn-primary submit-form-btn" />
+
+            @if (ViewData.ModelState.IsValid == false)
+            {
+                <div class="text-danger mt-3">@ViewData.ModelState["wrong_credentials"]!.Errors[0].ErrorMessage</div>
+            }
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

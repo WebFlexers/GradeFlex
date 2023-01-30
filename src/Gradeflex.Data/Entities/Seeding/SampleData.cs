@@ -182,15 +182,18 @@ public class SampleData
                 }
 
                 string title;
+                string department;
                 if (_professorsDepartments[professorId - 1] == "Informatics")
                 {
                     title = f.PickRandom(_informaticsCourses);
+                    department = "Informatics";
                     _coursesDepartments.Add((courseId, "Informatics"));
                     _informaticsCourses.Remove(title);
                 }
                 else
                 {
                     title = f.PickRandom(_economicsCourses);
+                    department = "Economics";
                     _coursesDepartments.Add((courseId, "Economics"));
                     _economicsCourses.Remove(title);
                 }
@@ -201,6 +204,7 @@ public class SampleData
                 {
                     Id = courseId++,
                     Title = title,
+                    Department = department,
                     Semester = f.Random.Number(1, 8).ToString(),
                     ProfessorId = professorId
                 };

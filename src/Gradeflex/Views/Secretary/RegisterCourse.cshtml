@@ -24,6 +24,8 @@
             <div>
                 <span asp-validation-for="Semester" class="text-danger"></span>
             </div>
+            
+            <input asp-for="Department" type="hidden" value="@Model.Department" />
 
             <input type="submit" value="Register Course" class="btn btn-primary submit-form-btn" />
 
