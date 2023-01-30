@@ -43,7 +43,7 @@ public class StudentController : Controller
             // Keep the id for future queries
             _cache.Set("student_id", student.Id, TimeSpan.FromHours(5));
 
-            return View(new StudentProfileModel
+            return View(new StudentProfileViewModel
             {
                 Name = student.Name,
                 Surname = student.Surname,
@@ -61,7 +61,7 @@ public class StudentController : Controller
 
     public ActionResult AllGrades()
     {
-        Dictionary<string, List<CourseModel>> coursesBySemester = new();
+        Dictionary<string, List<CourseViewModel>> coursesBySemester = new();
 
         try
         {
@@ -89,13 +89,13 @@ public class StudentController : Controller
 
             foreach (var course in studentCourses.OrderByDescending(c => c.Semester))
             {
-                List<GradeModel> allGrades = new();
+                List<GradeViewModel> allGrades = new();
                 double finalGrade = 0;
 
                 if (studentGrades.Any())
                 {
                     allGrades = studentGrades.Where(grade => grade.CourseId.Equals(course.Id))
-                        .Select(grade => new GradeModel
+                        .Select(grade => new GradeViewModel
                         {
                             Value = grade.Value,
                             Type = grade.Type,
@@ -128,7 +128,7 @@ public class StudentController : Controller
                     finalGrade /= totalGradesToDivideBy;
                 }
 
-                var courseModel = new CourseModel
+                var courseModel = new CourseViewModel
                 {
                     Title = course.Title,
                     Semester = course.Semester,
@@ -142,7 +142,7 @@ public class StudentController : Controller
                 }
                 else
                 {
-                    coursesBySemester.Add(courseModel.Semester, new List<CourseModel> { courseModel });
+                    coursesBySemester.Add(courseModel.Semester, new List<CourseViewModel> { courseModel });
                 }
             }
 
@@ -181,10 +181,10 @@ public class StudentController : Controller
                             grade.StudentId.Equals(studentId))
             .ToList();
 
-        var courseModel = new CourseModel
+        var courseModel = new CourseViewModel
         {
             Title = course.Title,
-            AllGrades = grades.Select(grade => new GradeModel
+            AllGrades = grades.Select(grade => new GradeViewModel
             {
                 Value = grade.Value,
                 Type = grade.Type,

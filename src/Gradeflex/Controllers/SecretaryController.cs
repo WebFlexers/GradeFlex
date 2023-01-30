@@ -41,7 +41,7 @@ public class SecretaryController : Controller
             // Keep the id for future queries
             // _cache.Set("secretary_id", secretary.Id, TimeSpan.FromHours(5));
 
-            return View(new SecretaryProfileModel
+            return View(new SecretaryProfileViewModel
             {
                 Name = secretary.Name,
                 Surname = secretary.Surname,
