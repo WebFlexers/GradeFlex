@@ -1,10 +1,10 @@
 ﻿using Gradeflex.Data;
+using Gradeflex.Models;
 using Gradeflex.Models.Professor;
-using Gradeflex.Models.Secretary;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using CourseViewModel = Gradeflex.Models.Professor.CourseViewModel;
 
 namespace Gradeflex.Controllers;
 public class ProfessorController : Controller
@@ -44,6 +44,7 @@ public class ProfessorController : Controller
 
             return View(new ProfessorViewModel
             {
+                Id = professor.Id,
                 Name = professor.Name,
                 Surname = professor.Surname,
                 Department = professor.Department,
@@ -58,9 +59,51 @@ public class ProfessorController : Controller
         }
     }
 
-    public ActionResult ProfessorCoursesGrades()
+    public ActionResult GradedCourses(int professorId)
     {
-        return View();
+        try
+        {
+            var professorGradedCourses = _dbContext.Courses
+                .Where(course => course.ProfessorId == professorId && course.Grades.Any())
+                .Select(course => new CourseViewModel
+                {
+                    Id = course.Id,
+                    Title = course.Title,
+                    Semester = course.Semester,
+                })
+                .GroupBy(course => course.Semester)
+                .ToDictionary(group => group.Key,
+                group => group.ToList()
+            ).Reverse().ToDictionary(x => x.Key, x => x.Value);
+
+            return View(professorGradedCourses);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An exception was thrown when trying to fetch courses graded by a professor");
+            return BadRequest("Failed to fetch courses graded by the professor");
+        }
+    }
+
+    public ActionResult DetailedCourseGrades(int courseId)
+    {
+        var studentsWithGradesInCourse = _dbContext.Students
+            .AsNoTracking()
+            .Where(student => student.Grades.Any(grade => grade.CourseId.Equals(courseId)))
+            .Select(student => new StudentGradesViewModel
+            {
+                RegistrationNumber = student.RegistrationNumber,
+                Name = student.Name,
+                Surname = student.Surname,
+                Grades = student.Grades.Where(grade => grade.CourseId.Equals(courseId))
+                    .Select(grade => new GradeViewModel
+                    {
+                        Type = grade.Type,
+                        Value = grade.Value
+                    }).ToList()
+            }).ToList();
+
+        return View(studentsWithGradesInCourse);
     }
 
     public ActionResult GradeStudents()

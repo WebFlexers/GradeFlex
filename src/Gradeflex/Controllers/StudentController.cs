@@ -1,5 +1,6 @@
 ﻿using Gradeflex.Data;
 using Gradeflex.Data.Entities;
+using Gradeflex.Models;
 using Gradeflex.Models.Student;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -132,7 +133,7 @@ public class StudentController : Controller
                 {
                     Title = course.Title,
                     Semester = course.Semester,
-                    AllGrades = allGrades,
+                    StudentGrades = allGrades,
                     FinalGrade = finalGrade,
                 };
 
@@ -184,7 +185,7 @@ public class StudentController : Controller
         var courseModel = new CourseViewModel
         {
             Title = course.Title,
-            AllGrades = grades.Select(grade => new GradeViewModel
+            StudentGrades = grades.Select(grade => new GradeViewModel
             {
                 Value = grade.Value,
                 Type = grade.Type,

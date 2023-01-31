@@ -1,0 +1,73 @@
+﻿@using Gradeflex.Data.Entities
+@model List<Gradeflex.Models.Professor.StudentGradesViewModel>
+
+@{
+    ViewData["Title"] = "DetailedCourseGrades";
+}
+
+<div class="title-container text-center">
+    <h1>Students Grades</h1>
+</div>
+
+@foreach (var student in Model)
+{
+    <div class="centered-container">
+        <h2 class="mb-2">Student: @student.Name @student.Surname</h2>
+        @{
+            // Here we keep track of the exercises and assignments count and
+            // we instantiate the final grade course to 0, in order to add to it later
+            // (Exercise counts as 1 grade, Assignment as 3 and the Final Exam as 6)
+            // Finally, we use the counts to divide by the correct number and calculate the Course Grade
+            double finalCourseGrade = 0;
+            int exerciseCount = 0;
+            int assignmentCount = 0;
+        }
+        
+        <div class="grades-container">
+            <h2 class="text-center course-title">Grades</h2>
+            <div class="grades-grid-container">
+                @foreach (var grade in student.Grades)
+                {
+                    <div class="course-title-container">
+                        @switch (grade.Type)
+                        {
+                            case GradeType.ExerciseGrade:
+                                exerciseCount++;
+                                <div class="text-center">
+                                    <p>Exercise @exerciseCount: </p>
+                                    <p class="fw-bold text-center">@grade.Value</p>
+                                </div>
+                                finalCourseGrade += grade.Value;
+                                break;
+                            case GradeType.AssignmentGrade:
+                                assignmentCount++;
+                                <div class="text-center">
+                                    <p>Assignment @assignmentCount: </p>
+                                    <p class="fw-bold text-center">@grade.Value</p>
+                                </div>
+                                finalCourseGrade += grade.Value * 3;
+                                break;
+                            case GradeType.FinalExamGrade:
+                                <div class="text-center">
+                                    <p>Final Exam: </p>
+                                    <p class="fw-bold text-center">@grade.Value</p>
+                                </div>
+                                finalCourseGrade += grade.Value * 6;
+                                break;
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        @{
+            // +6 corresponds to the final exam grade, which can't have a count more than 1
+            // and is 6 times more important that the exercise grade
+            finalCourseGrade /= exerciseCount + (assignmentCount * 3) + 6;
+        }
+        <div class="grades-grid-container text-center mt-3">
+            <h3 id="finalCourseHeader" class="text-center">Final Course Grade:</h3>
+            <p class="fw-bold text-center fs-4">@finalCourseGrade</p>
+        </div>
+    </div>
+}

@@ -50,7 +50,7 @@ namespace Gradeflex.Data.Migrations
 
                     b.HasIndex("ProfessorId");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
 
                     b.HasData(
                         new
@@ -227,7 +227,7 @@ namespace Gradeflex.Data.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("CoursesStudents");
+                    b.ToTable("CoursesStudents", (string)null);
 
                     b.HasData(
                         new
@@ -1008,7 +1008,7 @@ namespace Gradeflex.Data.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Grades");
+                    b.ToTable("Grades", (string)null);
 
                     b.HasData(
                         new
@@ -4650,7 +4650,7 @@ namespace Gradeflex.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Professors");
+                    b.ToTable("Professors", (string)null);
 
                     b.HasData(
                         new
@@ -4779,7 +4779,7 @@ namespace Gradeflex.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Secretaries");
+                    b.ToTable("Secretaries", (string)null);
 
                     b.HasData(
                         new
@@ -4863,7 +4863,7 @@ namespace Gradeflex.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", (string)null);
 
                     b.HasData(
                         new
@@ -5346,7 +5346,7 @@ namespace Gradeflex.Data.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new

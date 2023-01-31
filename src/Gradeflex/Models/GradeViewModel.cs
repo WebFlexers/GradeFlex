@@ -1,6 +1,6 @@
 ﻿using Gradeflex.Data.Entities;
 
-namespace Gradeflex.Models.Student;
+namespace Gradeflex.Models;
 
 public class GradeViewModel
 {

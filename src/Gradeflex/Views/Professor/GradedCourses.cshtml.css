@@ -1,0 +1,21 @@
+﻿.course-title-container {
+    border-radius: 10px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: 1rem;
+    background-color: var(--secondary-bg-color);
+    color: black;
+}
+
+.course-title-container:hover {
+    background-color: var(--secondary-bg-darker-color);
+}
+
+.course-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}

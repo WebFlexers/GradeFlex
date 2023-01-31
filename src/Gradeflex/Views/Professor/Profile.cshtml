@@ -22,7 +22,7 @@
 
     <div class="centered-container mt-4">
         <div class="text-center">
-            <a asp-controller="Professor" asp-action="ProfessorCoursesGrades" class="btn btn-primary m-3">Show Graded Courses</a>
+            <a asp-controller="Professor" asp-action="GradedCourses" asp-route-professorId="@Model.Id" class="btn btn-primary m-3">Show Graded Courses</a>
             <a asp-controller="Professor" asp-action="GradeStudents" class="btn btn-primary m-3">Grade Students</a>
         </div>
     </div>

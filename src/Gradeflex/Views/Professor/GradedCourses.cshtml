@@ -1,0 +1,24 @@
+﻿@model IDictionary<string, List<Gradeflex.Models.Professor.CourseViewModel>>
+
+@{
+    ViewData["Title"] = "GradedCourses";
+}
+
+<div class="title-container text-center">
+    <h1>Your graded courses</h1>
+</div>
+
+@foreach (var semesterCourse in Model)
+{
+    <div class="centered-container">
+        <h2 class="text-center mb-2">Semester @semesterCourse.Key</h2>
+        @foreach (var course in semesterCourse.Value)
+        {
+            <a asp-controller="Professor" asp-action="DetailedCourseGrades" asp-route-courseId="@course.Id" class="text-decoration-none">
+                <div class="course-title-container">
+                    <h3 class="text-center course-title">@course.Title</h3>
+                </div>
+            </a>
+        }
+    </div>
+}
