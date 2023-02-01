@@ -1,4 +1,5 @@
 ﻿using Gradeflex.Data;
+using Gradeflex.Data.Entities;
 using Gradeflex.Models;
 using Gradeflex.Models.Professor;
 using Microsoft.AspNetCore.Mvc;
@@ -87,28 +88,60 @@ public class ProfessorController : Controller
 
     public ActionResult DetailedCourseGrades(int courseId)
     {
-        var studentsWithGradesInCourse = _dbContext.Students
-            .AsNoTracking()
-            .Where(student => student.Grades.Any(grade => grade.CourseId.Equals(courseId)))
-            .Select(student => new StudentGradesViewModel
-            {
-                RegistrationNumber = student.RegistrationNumber,
-                Name = student.Name,
-                Surname = student.Surname,
-                Grades = student.Grades.Where(grade => grade.CourseId.Equals(courseId))
-                    .Select(grade => new GradeViewModel
-                    {
-                        Type = grade.Type,
-                        Value = grade.Value
-                    }).ToList()
-            }).ToList();
+        try
+        {
+            var studentsWithGradesInCourse = _dbContext.Students
+                .AsNoTracking()
+                .Where(student => student.Grades.Any(grade => grade.CourseId.Equals(courseId)))
+                .Select(student => new StudentGradesViewModel
+                {
+                    RegistrationNumber = student.RegistrationNumber,
+                    Name = student.Name,
+                    Surname = student.Surname,
+                    Grades = student.Grades.Where(grade => grade.CourseId.Equals(courseId))
+                        .Select(grade => new GradeViewModel
+                        {
+                            Type = grade.Type,
+                            Value = grade.Value
+                        }).ToList()
+                }).ToList();
 
-        return View(studentsWithGradesInCourse);
+            return View(studentsWithGradesInCourse);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An exception was thrown when trying to fetch the grades for course with id: {id}", courseId);
+            return BadRequest("Failed to fetch grades");
+        }
     }
 
-    public ActionResult GradeStudents()
+    public ActionResult UngradedCourses(int professorId)
     {
-        return View();
+        try
+        {
+            var coursesWithUngradedStudents = _dbContext.CoursesStudents
+                .AsNoTracking()
+                .Where(cs =>
+                    cs.Course.ProfessorId.Equals(professorId) &&
+                    cs.Student.Grades.Any(grade => grade.CourseId.Equals(cs.CourseId)) == false
+                )
+                .Select(cs => new CourseViewModel
+                {
+                    Id = cs.CourseId,
+                    Semester = cs.Course.Semester,
+                    Title = cs.Course.Title,
+                })
+                .GroupBy(courseVm => courseVm.Semester)
+                .ToDictionary(group => group.Key, group => group.ToList());
+
+            return View(coursesWithUngradedStudents);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An exception was thrown when trying to fetch ungraded " +
+                                 "courses of professor with id: {id}", professorId);
+            return BadRequest("Failed to fetch ungraded courses");
+        }
     }
 
     //[HttpPost]
