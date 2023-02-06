@@ -1,0 +1,92 @@
+﻿@model List<Gradeflex.Models.Professor.StudentViewModel>
+
+@{
+    ViewData["Title"] = "CourseUngradedStudents";
+
+    if (Model.Any() == false)
+    {
+        return;
+    }
+
+        string registrationNumberPrefix = string.Empty;
+    switch (Model[0].Department)
+    {
+        case "Informatics":
+            registrationNumberPrefix = "P";
+            break;
+        case "Economics":
+            registrationNumberPrefix = "E";
+            break;
+    }
+}
+
+<div class="title-container text-center">
+    <h1>The Ungraded Students</h1>
+</div>
+
+@foreach (var student in Model)
+{
+    <div class="centered-container">
+        <h2 class="text-center mb-4">Student Information:</h2>
+        <p class="fs-4">Registration Number: @registrationNumberPrefix@student.RegistrationNumber</p>
+        <p class="fs-4">Full Name: @student.Name @student.Surname</p>
+        <form asp-action="GradeStudent">
+            <div id="grades-container">
+                <div class="text-center mt-2">
+                    <select class="fs-4 p-1" name="grade-types">
+                        <option value="FinalExamGrade">Final Exam Grade</option>
+                        <option value="AssignmentGrade">Assignment Grade</option>
+                        <option value="ExerciseGrade">Exercise Grade</option>
+                    </select>
+                    <input class="fs-4" name="grade" type="text"/>
+                </div>
+            </div>
+
+            <div class="text-center mt-2 fs-1 flex-row justify-content-center">
+                <button id="add-button" class="btn btn-primary">+</button>
+                <button id="remove-button" class="btn btn-primary">-</button>
+            </div>
+
+            <div class="text-center mt-3">
+                <button class="btn btn-primary" name="submit-button" type="submit">Add Grade To Student</button>
+            </div>
+
+            <input name="studentId" type="hidden" value="@student.StudentId" />
+            <input name="courseId" type="hidden" value="@student.CourseId"/>
+        </form>
+    </div>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        document.getElementById("add-button").addEventListener("click", function (event) {
+            event.preventDefault();
+            var gradeTypes = document.querySelector("[name='grade-types']");
+            var gradeInput = document.querySelector("[name='grade']");
+            var gradeTypesClone = gradeTypes.cloneNode(true);
+            var gradeInputClone = gradeInput.cloneNode(true);
+            gradeInputClone.classList.add("ms-1");
+
+            var newDiv = document.createElement("div");
+            newDiv.classList.add("text-center", "mt-2");
+            newDiv.appendChild(gradeTypesClone);
+            newDiv.appendChild(gradeInputClone);
+
+            document.getElementById("grades-container").appendChild(newDiv);
+            document.getElementById("grades-container").appendChild(newDiv);
+        });
+        
+        document.getElementById("remove-button").addEventListener("click", function (event) {
+            event.preventDefault();
+            var containerDiv = document.getElementById("grades-container");
+            var childCount = containerDiv.children.length;
+            console.log("number of child nodes: " + childCount)
+            if (childCount <= 1) {
+                return;
+            }
+
+            containerDiv.removeChild(containerDiv.lastChild);
+        });
+    </script>
+}

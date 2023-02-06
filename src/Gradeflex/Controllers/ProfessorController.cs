@@ -2,9 +2,11 @@
 using Gradeflex.Data.Entities;
 using Gradeflex.Models;
 using Gradeflex.Models.Professor;
+using Gradeflex.Models.Student;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using System.Diagnostics;
 using CourseViewModel = Gradeflex.Models.Professor.CourseViewModel;
 
 namespace Gradeflex.Controllers;
@@ -144,17 +146,105 @@ public class ProfessorController : Controller
         }
     }
 
-    //[HttpPost]
-    //[ValidateAntiForgeryToken]
-    //public ActionResult Create(IFormCollection collection)
-    //{
-    //    try
-    //    {
-    //        return RedirectToAction(nameof(Profile));
-    //    }
-    //    catch
-    //    {
-    //        return View();
-    //    }
-    //}
+    public ActionResult CourseUngradedStudents(int courseId)
+    {
+        try
+        {
+            var ungradedStudents = _dbContext.Students
+                .AsNoTracking()
+                .Where(student => student.CoursesStudents.Any(cs => 
+                                      cs.CourseId.Equals(courseId) && 
+                                      cs.StudentId.Equals(student.Id)) 
+                                  && student.Grades.Any(grade => grade.CourseId.Equals(courseId)) == false 
+                                  
+                )
+                .Select(student => new StudentViewModel
+                {
+                    StudentId = student.Id,
+                    CourseId = courseId,
+                    RegistrationNumber = student.RegistrationNumber,
+                    Name = student.Name,
+                    Surname = student.Surname,
+                    Department = student.Department,
+                }).ToList();
+
+
+            return View(ungradedStudents);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An exception was thrown when trying to fetch the ungraded " +
+                                 "students of course with id: {id}", courseId);
+            return BadRequest("Failed to fetch ungraded students");
+        }
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult GradeStudent(IFormCollection collection)
+    {
+        var gradeTypes = new List<GradeType>();
+        var grades = new List<double>();
+
+        var formGradeTypes = collection["grade-types"];
+        var formGrades = collection["grade"];
+
+        if (formGrades.Count != formGradeTypes.Count)
+        {
+            _logger.LogError("Grades count was {gc}, but grade types count was {gtc}", formGrades.Count, formGradeTypes.Count);
+            return BadRequest();
+        }
+
+        foreach (var grade in formGrades)
+        {
+            if (double.TryParse(new ReadOnlySpan<char>(grade.ToCharArray()), out double gradeDouble) == false)
+            {
+                _logger.LogError("Grade was invalid", grade);
+                return BadRequest();
+            }
+            grades.Add(gradeDouble);
+        }
+
+        foreach (var gradeType in formGradeTypes)
+        {
+            if (Enum.TryParse<GradeType>(gradeType, out GradeType gradeTypeEnum) == false)
+            {
+                _logger.LogError("Grade type was invalid", gradeType);
+                return BadRequest();
+            }
+            gradeTypes.Add(gradeTypeEnum);
+        }
+
+        var courseIdIsValid = int.TryParse(collection["courseId"], out int courseId);
+        var studentIdIsValid = int.TryParse(collection["studentId"], out int studentId);
+
+        if (courseIdIsValid == false || studentIdIsValid == false)
+        {
+            _logger.LogError("Either course or student id where invalid", courseId, studentId);
+            return BadRequest();
+        }
+
+        try
+        {
+            for (int i = 0; i < grades.Count; i++)
+            {
+                _dbContext.Grades.Add(new Grade
+                {
+                    StudentId = studentId,
+                    CourseId = courseId,
+                    Type = gradeTypes[i],
+                    Value = grades[i]
+                });
+            }
+
+            _dbContext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to add grades");
+            return BadRequest("Failed to add grades");
+        }
+
+        return RedirectToAction("CourseUngradedStudents", "Professor", new { courseId = courseId });
+    }
 }
