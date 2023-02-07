@@ -1,9 +1,11 @@
 ﻿namespace Gradeflex.Models.Professor;
 
-public class StudentGradesViewModel
+public class StudentViewModel
 {
+    public int StudentId { get; set; }
+    public int CourseId { get; set; }
     public int RegistrationNumber { get; set; }
     public string Name { get; set; }
     public string Surname { get; set; }
-    public List<GradeViewModel> Grades { get; set; }
+    public string Department { get; set; }
 }
