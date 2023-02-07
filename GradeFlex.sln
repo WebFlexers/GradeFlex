@@ -5,13 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2E7D2B3E-3138-44BD-AFCD-34DCF0392E8C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EF9115AC-B4EB-4153-A5B6-901034BFD316}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gradeflex.Data", "src\Gradeflex.Data\Gradeflex.Data.csproj", "{C41D72D6-DB06-4F04-A404-3EFC9007F42A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gradeflex", "src\Gradeflex\Gradeflex.csproj", "{7A4DCFE5-793E-4891-B6A1-3CCC48CCC05B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gradeflex.UnitTests", "tests\Gradeflex.UnitTests\Gradeflex.UnitTests.csproj", "{361084B3-E392-4BA2-AD56-66773246DF72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +23,6 @@ Global
 		{7A4DCFE5-793E-4891-B6A1-3CCC48CCC05B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A4DCFE5-793E-4891-B6A1-3CCC48CCC05B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A4DCFE5-793E-4891-B6A1-3CCC48CCC05B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{361084B3-E392-4BA2-AD56-66773246DF72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{361084B3-E392-4BA2-AD56-66773246DF72}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{361084B3-E392-4BA2-AD56-66773246DF72}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{361084B3-E392-4BA2-AD56-66773246DF72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,7 +30,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C41D72D6-DB06-4F04-A404-3EFC9007F42A} = {2E7D2B3E-3138-44BD-AFCD-34DCF0392E8C}
 		{7A4DCFE5-793E-4891-B6A1-3CCC48CCC05B} = {2E7D2B3E-3138-44BD-AFCD-34DCF0392E8C}
-		{361084B3-E392-4BA2-AD56-66773246DF72} = {EF9115AC-B4EB-4153-A5B6-901034BFD316}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9D03C2DA-E79A-4C58-82DB-59DDC48F2686}
