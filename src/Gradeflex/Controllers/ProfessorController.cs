@@ -245,6 +245,6 @@ public class ProfessorController : Controller
             return BadRequest("Failed to add grades");
         }
 
-        return RedirectToAction("CourseUngradedStudents", "Professor", new { courseId = courseId });
+        return RedirectToAction("Profile", "Professor");
     }
 }

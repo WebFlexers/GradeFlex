@@ -12,13 +12,13 @@
 {
         <div class="centered-container">
             <h2 class="text-center mb-2">Semester @semesterCourse.Key</h2>
-        @foreach (var course in semesterCourse.Value)
+        @foreach (var course in semesterCourse.Value.DistinctBy(x => x.Title))
         {
-                    <a asp-controller="Professor" asp-action="CourseUngradedStudents" asp-route-courseId="@course.Id" class="text-decoration-none">
-                        <div class="course-title-container">
-                            <h3 class="text-center course-title">@course.Title</h3>
-                        </div>
-                    </a>
+            <a asp-controller="Professor" asp-action="CourseUngradedStudents" asp-route-courseId="@course.Id" class="text-decoration-none">
+                <div class="course-title-container">
+                    <h3 class="text-center course-title">@course.Title</h3>
+                </div>
+            </a>
         }
         </div>
 }
